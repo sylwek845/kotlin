@@ -90,7 +90,8 @@ object KlibTestUtil {
             builtInsPlatform = BuiltInsPlatform.COMMON,
             nativeTargets = emptyList(),
             nopack = false,
-            shortName = libraryName
+            shortName = libraryName,
+            privateMemberSignatures = true
         )
 
         library.addMetadata(serializedMetadata)

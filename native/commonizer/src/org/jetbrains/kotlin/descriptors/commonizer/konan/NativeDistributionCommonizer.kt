@@ -310,7 +310,8 @@ class NativeDistributionCommonizer(
             builtInsPlatform = BuiltInsPlatform.NATIVE,
             nativeTargets = emptyList(), // will be overwritten with NativeSensitiveManifestData.applyTo() below
             nopack = true,
-            shortName = manifestData.shortName
+            shortName = manifestData.shortName,
+            privateMemberSignatures = true
         )
         library.addMetadata(metadata)
         manifestData.applyTo(library.base as BaseWriterImpl)

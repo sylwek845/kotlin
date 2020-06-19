@@ -94,7 +94,8 @@ internal class K2MetadataKlibSerializer(private val metadataVersion: BuiltInsBin
             perFile = false,
             manifestProperties = null,
             dataFlowGraph = null,
-            builtInsPlatform = BuiltInsPlatform.COMMON
+            builtInsPlatform = BuiltInsPlatform.COMMON,
+            privateMemberSignatures = true
         )
     }
 }

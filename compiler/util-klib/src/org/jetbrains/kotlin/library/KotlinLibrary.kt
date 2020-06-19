@@ -15,6 +15,7 @@ const val KLIB_PROPERTY_SHORT_NAME = "short_name"
 const val KLIB_PROPERTY_DEPENDS = "depends"
 const val KLIB_PROPERTY_PACKAGE = "package"
 const val KLIB_PROPERTY_BUILTINS_PLATFORM = "builtins_platform"
+const val KLIB_PROPERTY_IR_PRIVATE_MEMBERS_HAVE_SIGNATURES = "ir_private_members_have_signatures"
 
 // Native-specific:
 const val KLIB_PROPERTY_INTEROP = "interop"
@@ -62,6 +63,9 @@ val BaseKotlinLibrary.shortName: String?
 val BaseKotlinLibrary.unresolvedDependencies: List<UnresolvedLibrary>
     get() = manifestProperties.propertyList(KLIB_PROPERTY_DEPENDS, escapeInQuotes = true)
         .map { UnresolvedLibrary(it, manifestProperties.getProperty("dependency_version_$it")) }
+
+val BaseKotlinLibrary.irPrivateMembersHaveSignatures: Boolean
+    get() = manifestProperties.getProperty(KLIB_PROPERTY_IR_PRIVATE_MEMBERS_HAVE_SIGNATURES) == "true"
 
 interface KotlinLibrary : BaseKotlinLibrary, MetadataLibrary, IrLibrary
 

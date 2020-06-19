@@ -110,6 +110,13 @@ open class IdSignatureSerializer(val mangler: KotlinMangler.IrMangler) : IdSigna
         return publicSignatureBuilder.buildSignature(declaration)
     }
 
+    private fun IrDeclaration.isMemberOrAccessor(): Boolean {
+        if (this !is IrOverridableMember) return false
+        if (this.parent !is IrClass) return false
+        if ((this as? IrSimpleFunction)?.origin == IrDeclarationOrigin.LOCAL_FUNCTION_FOR_LAMBDA) return false
+        return true
+    }
+
     fun composeFileLocalIdSignature(declaration: IrDeclaration): IdSignature {
         assert(!mangler.run { declaration.isExported() })
 
@@ -122,9 +129,28 @@ open class IdSignatureSerializer(val mangler: KotlinMangler.IrMangler) : IdSigna
                     IdSignature.FileLocalSignature(p, ++localIndex)
                 }
                 is IrSimpleFunction -> {
+                    val parent = declaration.parent
                     val p = declaration.correspondingPropertySymbol?.let { composeSignatureForDeclaration(it.owner) }
-                        ?: composeContainerIdSignature(declaration.parent)
-                    IdSignature.FileLocalSignature(p, ++localIndex)
+                        ?: composeContainerIdSignature(parent)
+                    IdSignature.FileLocalSignature(
+                        p,
+                        if (declaration.isMemberOrAccessor()) {
+                            mangler.run { declaration.signatureMangle }
+                        } else {
+                            ++localIndex
+                        }
+                    )
+                }
+                is IrProperty -> {
+                    val parent = declaration.parent
+                    IdSignature.FileLocalSignature(
+                        composeContainerIdSignature(parent),
+                        if (declaration.isMemberOrAccessor()) {
+                            mangler.run { declaration.signatureMangle }
+                        } else {
+                            ++localIndex
+                        }
+                    )
                 }
                 else -> IdSignature.FileLocalSignature(composeContainerIdSignature(declaration.parent), ++localIndex)
             }

@@ -30,7 +30,13 @@ class JsIrLinker(
     deserializeFakeOverrides: Boolean = FakeOverrideControl.deserializeFakeOverrides
 ) : KotlinIrLinker(currentModule, logger, builtIns, symbolTable, emptyList(), deserializeFakeOverrides) {
 
-    override val fakeOverrideBuilder = FakeOverrideBuilder(symbolTable, IdSignatureSerializer(JsManglerIr), builtIns)
+    private val signaturer = IdSignatureSerializer(JsManglerIr)
+    // TODO: cleaner separation of signaturer and declaration table is needed.
+    // The below declaration table use is only to work with private fake override signatures.
+    private val globalDeclarationTable = JsGlobalDeclarationTable(signaturer, builtIns)
+    override val declarationTable = DeclarationTable(globalDeclarationTable)
+
+    override val globalFakeOverrideBuilder = FakeOverrideBuilder(symbolTable, signaturer, builtIns)
 
     override fun isBuiltInModule(moduleDescriptor: ModuleDescriptor): Boolean =
         moduleDescriptor === moduleDescriptor.builtIns.builtInsModule
