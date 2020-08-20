@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.kotlin.cli.common.arguments.Argument;
 import org.jetbrains.kotlin.cli.common.arguments.CommonToolArguments;
 import org.jetbrains.kotlin.cli.common.arguments.ParseCommandLineArgumentsKt;
-import org.jetbrains.kotlin.cli.common.arguments.PreprocessCommandLineArgumentsKt;
+import org.jetbrains.kotlin.common.arguments.PreprocessCommandLineArgumentsKt;
 
 public class Usage {
     public static final String BAT_DELIMITER_CHARACTERS_NOTE =

@@ -16,7 +16,7 @@
 
 package org.jetbrains.kotlin.incremental.utils
 
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.incremental.ICReporterBase
 import java.io.File
 

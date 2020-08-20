@@ -6,7 +6,7 @@
 package org.jetbrains.kotlin.scripting.compiler.plugin.impl
 
 import com.intellij.util.SmartList
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.jvm.compiler.tryLoadModuleMapping
 import org.jetbrains.kotlin.config.LanguageVersionSettings
 import org.jetbrains.kotlin.load.kotlin.JvmPackagePartProviderBase

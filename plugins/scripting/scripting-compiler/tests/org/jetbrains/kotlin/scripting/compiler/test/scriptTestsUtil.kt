@@ -7,7 +7,7 @@ package org.jetbrains.kotlin.scripting.compiler.test
 
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.scripting.compiler.plugin.impl.ScriptJvmCompilerFromEnvironment
 import org.jetbrains.kotlin.scripting.compiler.plugin.toCompilerMessageSeverity

@@ -19,9 +19,6 @@ package org.jetbrains.kotlin.annotation.plugin.ide
 import com.intellij.openapi.module.Module
 import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
 import org.jetbrains.kotlin.idea.facet.KotlinFacet
-import org.jetbrains.kotlin.lexer.KtTokens
-import org.jetbrains.kotlin.psi.KtClass
-import org.jetbrains.kotlin.psi.KtDeclaration
 import java.io.File
 
 fun Module.getSpecialAnnotations(prefix: String): List<String> {

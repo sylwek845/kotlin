@@ -9,7 +9,7 @@ package org.jetbrains.kotlin.scripting.compiler.plugin.impl
 import com.intellij.openapi.Disposable
 import org.jetbrains.kotlin.cli.common.environment.setIdeaIoUseFallback
 import org.jetbrains.kotlin.cli.common.messages.AnalyzerWithCompilerReport
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.common.messages.MessageCollectorBasedReporter
 import org.jetbrains.kotlin.cli.common.repl.LineId
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment

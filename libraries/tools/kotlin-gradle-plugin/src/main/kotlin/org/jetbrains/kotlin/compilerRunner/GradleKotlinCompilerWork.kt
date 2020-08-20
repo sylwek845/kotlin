@@ -5,10 +5,9 @@
 
 package org.jetbrains.kotlin.compilerRunner
 
-import org.gradle.api.Project
 import org.gradle.api.logging.Logger
-import org.jetbrains.kotlin.cli.common.ExitCode
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.config.common.ExitCode
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.config.Services
 import org.jetbrains.kotlin.daemon.common.*
 import org.jetbrains.kotlin.gradle.logging.*
@@ -19,7 +18,7 @@ import org.jetbrains.kotlin.gradle.report.TaskExecutionResult
 import org.jetbrains.kotlin.gradle.tasks.clearLocalState
 import org.jetbrains.kotlin.gradle.tasks.throwGradleExceptionIfError
 import org.jetbrains.kotlin.gradle.utils.stackTraceAsString
-import org.jetbrains.kotlin.incremental.ChangedFiles
+import org.jetbrains.kotlin.gradle.incremental.ChangedFiles
 import org.jetbrains.kotlin.incremental.IncrementalModuleInfo
 import org.slf4j.LoggerFactory
 import java.io.*

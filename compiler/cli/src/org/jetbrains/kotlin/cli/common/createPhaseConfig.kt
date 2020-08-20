@@ -10,8 +10,8 @@ import org.jetbrains.kotlin.backend.common.phaser.CompilerPhase
 import org.jetbrains.kotlin.backend.common.phaser.PhaseConfig
 import org.jetbrains.kotlin.backend.common.phaser.toPhaseMap
 import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 
 fun createPhaseConfig(
     compoundPhase: CompilerPhase<*, *, *>,

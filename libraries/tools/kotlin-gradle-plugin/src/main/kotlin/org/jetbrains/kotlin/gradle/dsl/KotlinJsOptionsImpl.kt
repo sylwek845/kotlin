@@ -17,7 +17,7 @@
 package org.jetbrains.kotlin.gradle.dsl
 
 import org.gradle.api.file.FileCollection
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
 
 internal class KotlinJsOptionsImpl : KotlinJsOptionsBase() {
     override var freeCompilerArgs: List<String> = listOf()

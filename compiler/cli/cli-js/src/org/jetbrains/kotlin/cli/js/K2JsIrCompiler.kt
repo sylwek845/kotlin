@@ -5,21 +5,23 @@
 
 package org.jetbrains.kotlin.cli.js
 
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.util.text.StringUtil
 import org.jetbrains.kotlin.backend.common.serialization.metadata.KlibMetadataVersion
 import org.jetbrains.kotlin.cli.common.*
-import org.jetbrains.kotlin.cli.common.ExitCode.COMPILATION_ERROR
-import org.jetbrains.kotlin.cli.common.ExitCode.OK
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.cli.config.common.ExitCode.COMPILATION_ERROR
+import org.jetbrains.kotlin.cli.config.common.ExitCode.OK
+import org.jetbrains.kotlin.cli.config.common.ExitCode
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.K2JsArgumentConstants
 import org.jetbrains.kotlin.cli.common.config.addKotlinSourceRoot
 import org.jetbrains.kotlin.cli.common.extensions.ScriptEvaluationExtension
 import org.jetbrains.kotlin.cli.common.messages.AnalyzerWithCompilerReport
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.*
-import org.jetbrains.kotlin.cli.common.messages.GroupingMessageCollector
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.*
+import org.jetbrains.kotlin.cli.messages.GroupingMessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.common.messages.MessageUtil
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
@@ -39,10 +41,10 @@ import org.jetbrains.kotlin.serialization.js.ModuleKind
 import org.jetbrains.kotlin.util.Logger
 import org.jetbrains.kotlin.utils.KotlinPaths
 import org.jetbrains.kotlin.utils.PathUtil
-import org.jetbrains.kotlin.utils.fileUtils.withReplacedExtensionOrNull
 import org.jetbrains.kotlin.utils.join
 import java.io.File
 import java.io.IOException
+import org.jetbrains.kotlin.utils.fileUtils.withReplacedExtensionOrNull
 
 enum class ProduceKind {
     DEFAULT,  // Determine what to produce based on js-v1 options

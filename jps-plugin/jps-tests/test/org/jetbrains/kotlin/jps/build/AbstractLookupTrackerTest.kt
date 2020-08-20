@@ -20,8 +20,8 @@ import com.intellij.testFramework.UsefulTestCase
 import com.intellij.util.containers.StringInterner
 import org.jetbrains.kotlin.TestWithWorkingDir
 import org.jetbrains.kotlin.build.JvmSourceRoot
-import org.jetbrains.kotlin.cli.common.ExitCode
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.cli.config.common.ExitCode
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 import org.jetbrains.kotlin.codegen.forTestCompile.ForTestCompileRuntime

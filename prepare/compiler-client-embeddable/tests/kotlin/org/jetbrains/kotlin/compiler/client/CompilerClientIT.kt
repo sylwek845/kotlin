@@ -16,9 +16,9 @@
 
 package org.jetbrains.kotlin.compiler.client
 
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSourceLocation
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.daemon.client.DaemonReportMessage
 import org.jetbrains.kotlin.daemon.client.DaemonReportingTargets
 import org.jetbrains.kotlin.daemon.client.KotlinCompilerClient

@@ -23,14 +23,14 @@ import org.jetbrains.kotlin.backend.common.output.OutputFileCollection;
 import org.jetbrains.kotlin.cli.common.CLICompiler;
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys;
 import org.jetbrains.kotlin.cli.common.CommonCompilerPerformanceManager;
-import org.jetbrains.kotlin.cli.common.ExitCode;
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments;
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArgumentsKt;
+import org.jetbrains.kotlin.cli.config.common.ExitCode;
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments;
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArgumentsKt;
 import org.jetbrains.kotlin.cli.common.arguments.K2JsArgumentConstants;
 import org.jetbrains.kotlin.cli.common.config.ContentRootsKt;
 import org.jetbrains.kotlin.cli.common.messages.AnalyzerWithCompilerReport;
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity;
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector;
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity;
+import org.jetbrains.kotlin.cli.messages.MessageCollector;
 import org.jetbrains.kotlin.cli.common.messages.MessageUtil;
 import org.jetbrains.kotlin.cli.common.output.OutputUtilsKt;
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles;
@@ -65,11 +65,11 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.jetbrains.kotlin.cli.common.ExitCode.COMPILATION_ERROR;
-import static org.jetbrains.kotlin.cli.common.ExitCode.OK;
+import static org.jetbrains.kotlin.cli.config.common.ExitCode.COMPILATION_ERROR;
+import static org.jetbrains.kotlin.cli.config.common.ExitCode.OK;
 import static org.jetbrains.kotlin.cli.common.UtilsKt.checkKotlinPackageUsage;
 import static org.jetbrains.kotlin.cli.common.UtilsKt.getLibraryFromHome;
-import static org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.*;
+import static org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.*;
 
 public class K2JSCompiler extends CLICompiler<K2JSCompilerArguments> {
     private static final Map<String, ModuleKind> moduleKindMap = new HashMap<>();

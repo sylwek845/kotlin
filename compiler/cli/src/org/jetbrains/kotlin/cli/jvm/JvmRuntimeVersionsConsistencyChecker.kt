@@ -19,9 +19,9 @@ package org.jetbrains.kotlin.cli.jvm
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocation
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageLocation
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.config.*
 import java.io.IOException
 import java.util.*

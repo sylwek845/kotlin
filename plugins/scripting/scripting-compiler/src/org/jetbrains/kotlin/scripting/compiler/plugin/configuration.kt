@@ -6,7 +6,7 @@
 package org.jetbrains.kotlin.scripting.compiler.plugin
 
 import com.intellij.openapi.project.Project
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.jvm.config.jvmClasspathRoots
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.scripting.compiler.plugin.impl.reporter

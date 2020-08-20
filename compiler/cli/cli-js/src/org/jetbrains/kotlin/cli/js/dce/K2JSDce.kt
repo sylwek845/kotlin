@@ -6,11 +6,11 @@
 package org.jetbrains.kotlin.cli.js.dce
 
 import org.jetbrains.kotlin.cli.common.CLITool
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.cli.common.arguments.DevModeOverwritingStrategies
 import org.jetbrains.kotlin.cli.common.arguments.K2JSDceArguments
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.config.Services
 import org.jetbrains.kotlin.js.dce.*
 import org.jetbrains.kotlin.js.inline.util.RelativePathCalculator

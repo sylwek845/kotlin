@@ -5,7 +5,6 @@
 
 package org.jetbrains.kotlin.scripting.repl.js
 
-import org.jetbrains.kotlin.cli.common.repl.*
 import org.jetbrains.kotlin.descriptors.ModuleDescriptor
 import org.jetbrains.kotlin.descriptors.ScriptDescriptor
 import org.jetbrains.kotlin.ir.backend.js.utils.NameTables
@@ -16,6 +15,8 @@ import kotlin.script.experimental.api.CompiledScript
 import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.api.ScriptCompilationConfiguration
 import kotlin.script.experimental.api.ScriptEvaluationConfiguration
+import org.jetbrains.kotlin.cli.common.repl.IReplStageState
+import org.jetbrains.kotlin.cli.common.repl.IReplStageHistory
 
 abstract class JsState(override val lock: ReentrantReadWriteLock) : IReplStageState<ScriptDescriptor> {
     override val history: IReplStageHistory<ScriptDescriptor>

@@ -16,9 +16,9 @@ import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs
 import org.gradle.workers.WorkerExecutor
 import org.jetbrains.kotlin.build.DEFAULT_KOTLIN_SOURCE_FILES_EXTENSIONS
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.CommonToolArguments
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
 import org.jetbrains.kotlin.compilerRunner.*
 import org.jetbrains.kotlin.compilerRunner.GradleCompilerRunner.Companion.normalizeForFlagFile
@@ -43,7 +43,7 @@ import org.jetbrains.kotlin.gradle.utils.*
 import org.jetbrains.kotlin.gradle.utils.isParentOf
 import org.jetbrains.kotlin.gradle.utils.pathsAsStringRelativeTo
 import org.jetbrains.kotlin.gradle.utils.toSortedPathsArray
-import org.jetbrains.kotlin.incremental.ChangedFiles
+import org.jetbrains.kotlin.gradle.incremental.ChangedFiles
 import org.jetbrains.kotlin.library.impl.isKotlinLibrary
 import org.jetbrains.kotlin.utils.JsLibraryUtils
 import java.io.File

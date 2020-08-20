@@ -16,7 +16,7 @@
 
 package org.jetbrains.kotlin.incremental
 
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
 import org.jetbrains.kotlin.incremental.utils.TestCompilationResult
 import org.jetbrains.kotlin.incremental.utils.TestICReporter

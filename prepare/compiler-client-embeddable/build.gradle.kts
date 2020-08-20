@@ -15,6 +15,7 @@ val testCompilationClasspath by configurations.creating
 
 dependencies {
     embedded(project(":compiler:cli-common")) { isTransitive = false }
+    embedded(project(":compiler:cli-messages")) { isTransitive = false }
     embedded(project(":daemon-common")) { isTransitive = false }
     embedded(project(":daemon-common-new")) { isTransitive = false }
     embedded(projectRuntimeJar(":kotlin-daemon-client"))

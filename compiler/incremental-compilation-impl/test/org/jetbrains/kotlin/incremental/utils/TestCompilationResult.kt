@@ -16,7 +16,7 @@
 
 package org.jetbrains.kotlin.incremental.utils
 
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import java.io.File
 
 data class TestCompilationResult(

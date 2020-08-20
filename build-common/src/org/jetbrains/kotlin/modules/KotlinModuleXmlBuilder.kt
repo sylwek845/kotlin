@@ -17,7 +17,7 @@
 package org.jetbrains.kotlin.modules
 
 import org.jetbrains.kotlin.build.JvmSourceRoot
-import org.jetbrains.kotlin.cli.common.modules.ModuleXmlParser.*
+import org.jetbrains.kotlin.common.modules.ModuleXmlParser.*
 import org.jetbrains.kotlin.config.IncrementalCompilation
 import org.jetbrains.kotlin.utils.Printer
 import java.io.File

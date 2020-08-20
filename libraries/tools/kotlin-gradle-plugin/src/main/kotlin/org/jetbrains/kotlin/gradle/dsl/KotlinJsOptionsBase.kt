@@ -116,7 +116,7 @@ internal abstract class KotlinJsOptionsBase : org.jetbrains.kotlin.gradle.dsl.Ko
             typedArraysField = value
         }
 
-    internal open fun updateArguments(args: org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments) {
+    internal open fun updateArguments(args: org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments) {
         allWarningsAsErrorsField?.let { args.allWarningsAsErrors = it }
         suppressWarningsField?.let { args.suppressWarnings = it }
         verboseField?.let { args.verbose = it }
@@ -136,7 +136,7 @@ internal abstract class KotlinJsOptionsBase : org.jetbrains.kotlin.gradle.dsl.Ko
     }
 }
 
-internal fun org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments.fillDefaultValues() {
+internal fun org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments.fillDefaultValues() {
     allWarningsAsErrors = false
     suppressWarnings = false
     verbose = false

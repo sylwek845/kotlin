@@ -23,9 +23,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.backend.common.output.OutputFile;
 import org.jetbrains.kotlin.backend.common.output.OutputFileCollection;
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector;
-import org.jetbrains.kotlin.cli.common.modules.ModuleChunk;
-import org.jetbrains.kotlin.cli.common.modules.ModuleXmlParser;
+import org.jetbrains.kotlin.cli.messages.MessageCollector;
+import org.jetbrains.kotlin.common.modules.ModuleChunk;
+import org.jetbrains.kotlin.common.modules.ModuleXmlParser;
 import org.jetbrains.kotlin.name.FqName;
 import org.jetbrains.kotlin.utils.ExceptionUtilsKt;
 import org.jetbrains.kotlin.utils.PathUtil;
@@ -33,7 +33,7 @@ import org.jetbrains.kotlin.utils.PathUtil;
 import java.io.*;
 import java.util.jar.*;
 
-import static org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.ERROR;
+import static org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.ERROR;
 
 public class CompileEnvironmentUtil {
     @NotNull

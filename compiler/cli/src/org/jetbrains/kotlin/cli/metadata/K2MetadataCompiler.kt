@@ -20,9 +20,7 @@ import com.intellij.openapi.Disposable
 import org.jetbrains.kotlin.cli.common.*
 import org.jetbrains.kotlin.cli.common.arguments.K2MetadataCompilerArguments
 import org.jetbrains.kotlin.cli.common.config.addKotlinSourceRoot
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.*
 import org.jetbrains.kotlin.cli.common.messages.MessageUtil
-import org.jetbrains.kotlin.cli.common.messages.OutputMessageUtil
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.cli.jvm.config.K2MetadataConfigurationKeys
@@ -36,6 +34,12 @@ import org.jetbrains.kotlin.metadata.deserialization.BinaryVersion
 import org.jetbrains.kotlin.metadata.jvm.deserialization.JvmProtoBufUtil
 import org.jetbrains.kotlin.utils.KotlinPaths
 import java.io.File
+
+import org.jetbrains.kotlin.cli.config.common.ExitCode
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.STRONG_WARNING
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.ERROR
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.EXCEPTION
+import org.jetbrains.kotlin.cli.messages.OutputMessageUtil
 
 class K2MetadataCompiler : CLICompiler<K2MetadataCompilerArguments>() {
 

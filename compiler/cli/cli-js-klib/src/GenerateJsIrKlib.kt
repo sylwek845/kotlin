@@ -7,6 +7,9 @@
 
 package org.jetbrains.kotlin.ir.backend.js
 
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.GroupingMessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.vfs.StandardFileSystems
 import com.intellij.openapi.vfs.VirtualFileManager

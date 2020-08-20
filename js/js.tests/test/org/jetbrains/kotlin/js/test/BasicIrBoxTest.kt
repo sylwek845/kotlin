@@ -8,7 +8,7 @@ package org.jetbrains.kotlin.js.test
 import org.jetbrains.kotlin.backend.common.phaser.PhaseConfig
 import org.jetbrains.kotlin.backend.common.phaser.toPhaseMap
 import org.jetbrains.kotlin.cli.common.messages.AnalyzerWithCompilerReport
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.js.messageCollectorLogger
 import org.jetbrains.kotlin.ir.backend.js.*
 import org.jetbrains.kotlin.ir.declarations.persistent.PersistentIrFactory

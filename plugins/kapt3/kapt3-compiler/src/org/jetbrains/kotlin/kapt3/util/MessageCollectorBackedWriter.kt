@@ -16,9 +16,9 @@
 
 package org.jetbrains.kotlin.kapt3.util
 
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.GroupingMessageCollector
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.GroupingMessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import java.io.Writer
 
 class MessageCollectorBackedWriter(

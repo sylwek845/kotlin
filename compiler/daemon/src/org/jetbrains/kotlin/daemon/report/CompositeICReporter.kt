@@ -5,7 +5,7 @@
 
 package org.jetbrains.kotlin.daemon.report
 
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import java.io.File
 
 internal class CompositeICReporter(private val reporters: Iterable<RemoteICReporter>) :

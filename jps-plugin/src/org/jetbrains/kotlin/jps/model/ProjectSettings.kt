@@ -8,8 +8,8 @@ package org.jetbrains.kotlin.jps.model
 import org.jetbrains.jps.model.JpsProject
 import org.jetbrains.jps.model.ex.JpsElementBase
 import org.jetbrains.jps.model.ex.JpsElementChildRoleBase
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.K2MetadataCompilerArguments
 import org.jetbrains.kotlin.config.CompilerSettings

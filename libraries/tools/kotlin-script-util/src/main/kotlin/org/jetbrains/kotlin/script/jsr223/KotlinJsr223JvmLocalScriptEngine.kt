@@ -18,7 +18,6 @@ package org.jetbrains.kotlin.script.jsr223
 
 import org.jetbrains.kotlin.cli.common.messages.MessageRenderer
 import org.jetbrains.kotlin.cli.common.messages.PrintingMessageCollector
-import org.jetbrains.kotlin.cli.common.repl.*
 import org.jetbrains.kotlin.cli.jvm.config.addJvmClasspathRoots
 import org.jetbrains.kotlin.cli.jvm.config.addJvmSdkRoots
 import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
@@ -34,6 +33,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import javax.script.ScriptContext
 import javax.script.ScriptEngineFactory
 import kotlin.reflect.KClass
+import org.jetbrains.kotlin.common.repl.GenericReplCompilingEvaluator
+import org.jetbrains.kotlin.cli.common.repl.*
 
 class KotlinJsr223JvmLocalScriptEngine(
         factory: ScriptEngineFactory,

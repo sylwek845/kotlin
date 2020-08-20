@@ -22,6 +22,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jetbrains.kotlin.cli.messages.OutputMessageUtil;
+
 public class OutputMessageUtilTest extends TestCase {
     enum TargetOS {
         UNIX {
@@ -63,8 +65,8 @@ public class OutputMessageUtilTest extends TestCase {
         String message = OutputMessageUtil.formatOutputMessage(sourceFiles, outputFile);
         OutputMessageUtil.Output output = OutputMessageUtil.parseOutputMessage(message);
         assertNotNull("Output is null", output);
-        assertEquals(sourceFiles, output.sourceFiles);
-        assertEquals(outputFile, output.outputFile);
+        assertEquals(sourceFiles, output.getSourceFiles());
+        assertEquals(outputFile, output.getOutputFile());
     }
 
     public void testOneInOneOut() throws Exception {

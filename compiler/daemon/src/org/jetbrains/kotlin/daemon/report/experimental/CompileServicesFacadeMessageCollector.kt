@@ -7,9 +7,9 @@ package org.jetbrains.kotlin.daemon.report.experimental
 
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSourceLocation
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.common.messages.MessageRenderer
 import org.jetbrains.kotlin.daemon.KotlinCompileDaemon.log
 import org.jetbrains.kotlin.daemon.common.*

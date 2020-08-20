@@ -5,9 +5,9 @@
 
 package org.jetbrains.kotlin.compilerRunner
 
-import org.jetbrains.kotlin.cli.common.ExitCode
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.config.common.ExitCode
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
 import java.io.StringReader

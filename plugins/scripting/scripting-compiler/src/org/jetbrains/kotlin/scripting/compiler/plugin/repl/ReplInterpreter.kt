@@ -7,11 +7,10 @@ package org.jetbrains.kotlin.scripting.compiler.plugin.repl
 
 import com.intellij.openapi.Disposable
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSourceLocation
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSourceLocation
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.common.messages.MessageRenderer
-import org.jetbrains.kotlin.cli.common.repl.*
 import org.jetbrains.kotlin.cli.jvm.config.JvmClasspathRoot
 import org.jetbrains.kotlin.cli.jvm.config.JvmModulePathRoot
 import org.jetbrains.kotlin.config.CompilerConfiguration
@@ -20,6 +19,9 @@ import org.jetbrains.kotlin.scripting.definitions.KotlinScriptDefinition
 import java.io.PrintWriter
 import java.net.URLClassLoader
 import java.util.concurrent.atomic.AtomicInteger
+import org.jetbrains.kotlin.cli.common.repl.*
+import org.jetbrains.kotlin.common.repl.ReplClassLoader
+import org.jetbrains.kotlin.common.repl.GenericReplCompilingEvaluator
 
 class ReplInterpreter(
     disposable: Disposable,

@@ -12,10 +12,10 @@ import org.jetbrains.jps.model.JpsProject
 import org.jetbrains.jps.model.module.JpsModule
 import org.jetbrains.jps.model.serialization.JpsProjectExtensionSerializer
 import org.jetbrains.jps.model.serialization.facet.JpsFacetConfigurationSerializer
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.common.arguments.setApiVersionToLanguageVersionIfNeeded
 import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
-import org.jetbrains.kotlin.cli.common.arguments.setApiVersionToLanguageVersionIfNeeded
 import org.jetbrains.kotlin.config.*
 import java.util.*
 

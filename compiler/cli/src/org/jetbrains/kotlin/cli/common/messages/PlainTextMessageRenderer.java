@@ -23,11 +23,13 @@ import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.internal.CLibrary;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity;
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSourceLocation;
 
 import java.util.EnumSet;
 import java.util.Set;
 
-import static org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.*;
+import static org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.*;
 
 public abstract class PlainTextMessageRenderer implements MessageRenderer {
     public static final String KOTLIN_COLORS_ENABLED_PROPERTY = "kotlin.colors.enabled";

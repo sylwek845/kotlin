@@ -16,10 +16,10 @@
 
 package org.jetbrains.kotlin.daemon.client
 
-import org.jetbrains.kotlin.cli.common.repl.*
 import org.jetbrains.kotlin.daemon.common.ReplStateFacade
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import org.jetbrains.kotlin.cli.common.repl.*
 
 // NOTE: the lock is local
 // TODO: verify that locla lock doesn't lead to any synch problems

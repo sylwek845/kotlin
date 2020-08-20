@@ -7,7 +7,6 @@ package org.jetbrains.kotlin.daemon.common.experimental
 
 import org.jetbrains.kotlin.cli.common.repl.ILineId
 import org.jetbrains.kotlin.daemon.common.ReplStateFacadeAsync
-import org.jetbrains.kotlin.daemon.common.experimental.socketInfrastructure.ByteWriteChannelWrapper
 import org.jetbrains.kotlin.daemon.common.experimental.socketInfrastructure.Server
 
 interface ReplStateFacadeServerSide: ReplStateFacadeAsync, Server<ReplStateFacadeServerSide> {

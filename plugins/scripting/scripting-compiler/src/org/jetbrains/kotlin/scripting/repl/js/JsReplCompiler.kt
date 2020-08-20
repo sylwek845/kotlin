@@ -6,7 +6,6 @@
 package org.jetbrains.kotlin.scripting.repl.js
 
 import org.jetbrains.kotlin.backend.common.serialization.signature.IdSignatureDescriptor
-import org.jetbrains.kotlin.cli.common.repl.*
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.ir.backend.js.lower.serialization.ir.JsManglerDesc
 import org.jetbrains.kotlin.ir.backend.js.utils.NameTables
@@ -14,6 +13,7 @@ import org.jetbrains.kotlin.ir.declarations.impl.IrFactoryImpl
 import org.jetbrains.kotlin.ir.util.SymbolTable
 import org.jetbrains.kotlin.scripting.compiler.plugin.repl.ReplCodeAnalyzerBase
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import org.jetbrains.kotlin.cli.common.repl.*
 
 // Used to compile REPL code lines
 class JsReplCompiler(private val environment: KotlinCoreEnvironment) : ReplCompiler {

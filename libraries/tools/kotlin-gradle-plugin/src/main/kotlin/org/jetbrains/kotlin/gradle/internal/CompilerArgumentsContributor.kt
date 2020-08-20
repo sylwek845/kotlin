@@ -9,14 +9,16 @@ import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
 import org.jetbrains.kotlin.cli.common.arguments.CommonToolArguments
 import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
-import org.jetbrains.kotlin.gradle.dsl.fillDefaultValues
 import org.jetbrains.kotlin.gradle.logging.kotlinDebug
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompileArgumentsProvider
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompilerArgumentsProvider
 import org.jetbrains.kotlin.gradle.utils.toSortedPathsArray
-import org.jetbrains.kotlin.incremental.classpathAsList
-import org.jetbrains.kotlin.incremental.destinationAsFile
+import org.jetbrains.kotlin.gradle.dsl.fillDefaultValues
+import org.jetbrains.kotlin.cli.common.incremental.classpathAsList
+import org.jetbrains.kotlin.cli.common.incremental.destinationAsFile
+
+//move to cli module
 
 internal interface CompilerArgumentsContributor<in T : CommonToolArguments> {
     fun contributeArguments(

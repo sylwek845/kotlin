@@ -19,7 +19,7 @@ package org.jetbrains.kotlin.kapt3.test
 import com.intellij.openapi.util.text.StringUtil
 import org.jetbrains.kotlin.base.kapt3.DetectMemoryLeaksMode
 import org.jetbrains.kotlin.base.kapt3.KaptOptions
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.codegen.ClassBuilderMode
 import org.jetbrains.kotlin.codegen.GenerationUtils
 import org.jetbrains.kotlin.codegen.OriginCollectingClassBuilderFactory

@@ -22,11 +22,10 @@ import com.intellij.openapi.vfs.impl.ZipHandler
 import com.intellij.openapi.vfs.impl.jar.CoreJarFileSystem
 import org.jetbrains.kotlin.build.DEFAULT_KOTLIN_SOURCE_FILES_EXTENSIONS
 import org.jetbrains.kotlin.cli.common.CLICompiler
-import org.jetbrains.kotlin.cli.common.ExitCode
-import org.jetbrains.kotlin.cli.common.KOTLIN_COMPILER_ENVIRONMENT_KEEPALIVE_PROPERTY
-import org.jetbrains.kotlin.cli.common.arguments.*
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import  org.jetbrains.kotlin.cli.config.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.KOTLIN_COMPILER_ENVIRONMENT_KEEPALIVE_PROPERTY
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.common.repl.ReplCheckResult
 import org.jetbrains.kotlin.cli.common.repl.ReplCodeLine
 import org.jetbrains.kotlin.cli.common.repl.ReplCompileResult
@@ -65,6 +64,12 @@ import java.util.logging.Logger
 import kotlin.concurrent.read
 import kotlin.concurrent.schedule
 import kotlin.concurrent.write
+import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.common.arguments.isIrBackendEnabled
+import org.jetbrains.kotlin.cli.common.arguments.validateArguments
+import org.jetbrains.kotlin.cli.common.arguments.parseCommandLineArguments
 
 const val REMOTE_STREAM_BUFFER_SIZE = 4096
 

@@ -20,7 +20,7 @@ import com.intellij.openapi.Disposable
 import org.jetbrains.kotlin.checkers.setupLanguageVersionSettingsForCompilerTests
 import org.jetbrains.kotlin.checkers.setupLanguageVersionSettingsForMultifileCompilerTests
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.config.CompilerConfiguration

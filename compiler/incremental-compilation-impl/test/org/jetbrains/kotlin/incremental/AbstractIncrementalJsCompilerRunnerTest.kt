@@ -16,7 +16,7 @@
 
 package org.jetbrains.kotlin.incremental
 
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.incremental.testingUtils.BuildLogFinder
 import org.jetbrains.kotlin.incremental.utils.TestCompilationResult
 import org.jetbrains.kotlin.incremental.utils.TestICReporter

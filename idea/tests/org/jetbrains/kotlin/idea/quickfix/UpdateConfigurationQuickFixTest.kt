@@ -7,7 +7,6 @@ package org.jetbrains.kotlin.idea.quickfix
 
 import com.intellij.facet.FacetManager
 import com.intellij.facet.impl.FacetUtil
-import com.intellij.openapi.module.Module
 import com.intellij.openapi.roots.ModuleRootModificationUtil.updateModel
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.ui.configuration.libraryEditor.NewLibraryEditor

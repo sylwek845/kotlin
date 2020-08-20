@@ -1,7 +1,7 @@
 package org.jetbrains.kotlin.gradle.tasks
 
 import org.gradle.api.GradleException
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.compilerRunner.KotlinLogger
 import org.jetbrains.kotlin.gradle.logging.GradleKotlinLogger
 import org.jetbrains.kotlin.gradle.internal.tasks.TaskWithLocalState

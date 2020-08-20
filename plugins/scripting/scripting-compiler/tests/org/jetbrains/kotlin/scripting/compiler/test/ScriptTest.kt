@@ -5,6 +5,10 @@
 
 package org.jetbrains.kotlin.scripting.compiler.test
 
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.MessageCollectorUtil
+import org.jetbrains.kotlin.cli.messages.OutputMessageUtil
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import com.intellij.openapi.util.Disposer
 import junit.framework.TestCase
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys

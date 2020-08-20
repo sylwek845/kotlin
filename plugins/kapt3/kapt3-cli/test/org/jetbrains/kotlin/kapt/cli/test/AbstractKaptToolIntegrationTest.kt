@@ -6,7 +6,7 @@
 package org.jetbrains.kotlin.kapt.cli.test
 
 import com.intellij.openapi.util.SystemInfo
-import org.jetbrains.kotlin.cli.common.arguments.readArgumentsFromArgFile
+import org.jetbrains.kotlin.common.arguments.readArgumentsFromArgFile
 import org.jetbrains.kotlin.test.JUnit3RunnerWithInners
 import org.jetbrains.kotlin.test.KotlinTestUtils
 import org.jetbrains.kotlin.test.TestCaseWithTmpdir

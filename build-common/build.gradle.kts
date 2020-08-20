@@ -9,6 +9,8 @@ dependencies {
     compileOnly(project(":core:util.runtime"))
     compileOnly(project(":compiler:util"))
     compileOnly(project(":compiler:cli-common"))
+    compileOnly(project(":compiler:cli-messages"))
+    compileOnly(project(":compiler:cli-config-base"))
     compileOnly(project(":compiler:frontend.java"))
     compileOnly(project(":js:js.serializer"))
     compileOnly(project(":js:js.config"))

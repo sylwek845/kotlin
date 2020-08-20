@@ -6,6 +6,8 @@ plugins {
 dependencies {
     compile(project(":compiler:util"))
     compile(project(":compiler:cli-common"))
+    compile(project(":compiler:cli-messages"))
+    compile(project(":compiler:cli-config-base"))
     compile(project(":compiler:frontend"))
     compile(project(":compiler:frontend.java"))
     compile(project(":compiler:backend-common"))

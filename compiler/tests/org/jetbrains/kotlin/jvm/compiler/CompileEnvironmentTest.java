@@ -18,7 +18,7 @@ package org.jetbrains.kotlin.jvm.compiler;
 
 import com.intellij.openapi.util.io.FileUtil;
 import junit.framework.TestCase;
-import org.jetbrains.kotlin.cli.common.ExitCode;
+import org.jetbrains.kotlin.cli.config.common.ExitCode;
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler;
 import org.jetbrains.kotlin.codegen.forTestCompile.ForTestCompileRuntime;
 import org.jetbrains.kotlin.test.KotlinTestUtils;

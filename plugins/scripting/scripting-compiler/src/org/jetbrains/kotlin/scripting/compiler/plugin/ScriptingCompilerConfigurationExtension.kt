@@ -9,7 +9,7 @@ import com.intellij.core.CoreFileTypeRegistry
 import com.intellij.mock.MockProject
 import com.intellij.openapi.fileTypes.FileTypeRegistry
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.jvm.config.jvmClasspathRoots
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.JVMConfigurationKeys

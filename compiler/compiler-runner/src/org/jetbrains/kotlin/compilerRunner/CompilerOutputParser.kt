@@ -16,20 +16,20 @@
 
 package org.jetbrains.kotlin.compilerRunner
 
-import com.intellij.openapi.util.io.FileUtil
-import com.intellij.util.containers.Stack
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocation
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.*
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
-import org.jetbrains.kotlin.cli.common.messages.MessageCollectorUtil.reportException
-import org.jetbrains.kotlin.cli.common.messages.OutputMessageUtil
+import org.jetbrains.kotlin.cli.messages.MessageCollectorUtil
+import org.jetbrains.kotlin.cli.messages.CompilerMessageLocation
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.*
+import org.jetbrains.kotlin.cli.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollectorUtil.reportException
+import org.jetbrains.kotlin.cli.messages.OutputMessageUtil
 import org.xml.sax.Attributes
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 import org.xml.sax.helpers.DefaultHandler
 import java.io.IOException
 import java.io.Reader
+import java.util.*
 import javax.xml.parsers.SAXParserFactory
 
 object CompilerOutputParser {
@@ -65,7 +65,7 @@ object CompilerOutputParser {
             // Load all the text into the stringBuilder
             try {
                 // This will not close the reader (see the wrapper above)
-                FileUtil.loadTextAndClose(wrappingReader)
+                loadTextAndClose(wrappingReader)
             }
             catch (ioException: IOException) {
                 reportException(messageCollector, ioException)

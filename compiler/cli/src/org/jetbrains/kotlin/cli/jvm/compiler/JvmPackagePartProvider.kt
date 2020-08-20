@@ -16,13 +16,14 @@
 
 package org.jetbrains.kotlin.cli.jvm.compiler
 
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.SmartList
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocation
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.ERROR
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.LOGGING
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageLocation
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.ERROR
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.LOGGING
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.jvm.index.JavaRoot
 import org.jetbrains.kotlin.config.LanguageVersionSettings
 import org.jetbrains.kotlin.load.kotlin.JvmPackagePartProviderBase

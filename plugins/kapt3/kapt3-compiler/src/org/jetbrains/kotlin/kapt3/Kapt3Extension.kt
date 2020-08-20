@@ -16,6 +16,7 @@
 
 package org.jetbrains.kotlin.kapt3
 
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
 import com.intellij.openapi.project.Project
 import com.sun.tools.javac.code.Flags
 import com.sun.tools.javac.tree.JCTree
@@ -30,9 +31,9 @@ import org.jetbrains.kotlin.base.kapt3.DetectMemoryLeaksMode
 import org.jetbrains.kotlin.base.kapt3.KaptFlag
 import org.jetbrains.kotlin.base.kapt3.KaptOptions
 import org.jetbrains.kotlin.base.kapt3.collectJavaSourceFiles
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.OUTPUT
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
-import org.jetbrains.kotlin.cli.common.messages.OutputMessageUtil
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.OUTPUT
+import org.jetbrains.kotlin.cli.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.OutputMessageUtil
 import org.jetbrains.kotlin.cli.common.output.writeAll
 import org.jetbrains.kotlin.cli.jvm.plugins.ServiceLoaderLite
 import org.jetbrains.kotlin.codegen.ClassBuilderMode

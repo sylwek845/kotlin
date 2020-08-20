@@ -20,6 +20,9 @@ import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity;
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSourceLocation;
+
 public class XmlMessageRenderer implements MessageRenderer {
     @Override
     public String renderPreamble() {

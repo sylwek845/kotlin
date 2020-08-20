@@ -26,8 +26,8 @@ import kotlin.reflect.jvm.ReflectJvmMapping;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.cli.common.arguments.Argument;
+import org.jetbrains.kotlin.common.arguments.InternalArgument;
 import org.jetbrains.kotlin.cli.common.arguments.CommonToolArguments;
-import org.jetbrains.kotlin.cli.common.arguments.InternalArgument;
 import org.jetbrains.kotlin.cli.common.arguments.ParseCommandLineArgumentsKt;
 import org.jetbrains.kotlin.utils.StringsKt;
 

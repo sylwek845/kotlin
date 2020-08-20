@@ -8,9 +8,9 @@ package org.jetbrains.kotlin.kapt.cli
 
 import com.intellij.util.PathUtil
 import org.jetbrains.annotations.TestOnly
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.cli.common.arguments.ArgumentParseErrors
-import org.jetbrains.kotlin.cli.common.arguments.preprocessCommandLineArguments
+import org.jetbrains.kotlin.common.arguments.preprocessCommandLineArguments
 import org.jetbrains.kotlin.cli.common.arguments.validateArguments
 import org.jetbrains.kotlin.cli.common.messages.*
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
@@ -18,6 +18,8 @@ import org.jetbrains.kotlin.cli.jvm.modules.isAtLeastJava9
 import org.jetbrains.kotlin.kapt.cli.CliToolOption.Format.*
 import java.io.File
 import kotlin.system.exitProcess
+import org.jetbrains.kotlin.cli.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
 
 fun main(args: Array<String>) {
     val messageCollector = PrintingMessageCollector(System.err, MessageRenderer.PLAIN_RELATIVE_PATHS, false)

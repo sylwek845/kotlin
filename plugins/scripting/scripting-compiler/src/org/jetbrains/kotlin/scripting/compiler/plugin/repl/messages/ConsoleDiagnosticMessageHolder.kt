@@ -5,7 +5,7 @@
 
 package org.jetbrains.kotlin.scripting.compiler.plugin.repl.messages
 
-import org.jetbrains.kotlin.cli.common.messages.GroupingMessageCollector
+import org.jetbrains.kotlin.cli.messages.GroupingMessageCollector
 import org.jetbrains.kotlin.cli.common.messages.MessageCollectorBasedReporter
 import org.jetbrains.kotlin.cli.common.messages.MessageRenderer
 import org.jetbrains.kotlin.cli.common.messages.PrintingMessageCollector

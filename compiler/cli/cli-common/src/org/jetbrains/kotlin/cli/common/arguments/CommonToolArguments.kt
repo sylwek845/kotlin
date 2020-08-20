@@ -16,6 +16,9 @@
 
 package org.jetbrains.kotlin.cli.common.arguments
 
+import org.jetbrains.kotlin.cli.common.arguments.Argument
+import org.jetbrains.kotlin.cli.common.arguments.ArgumentParseErrors
+import org.jetbrains.kotlin.common.arguments.InternalArgument
 import java.io.Serializable
 
 abstract class CommonToolArguments : Freezable(), Serializable {

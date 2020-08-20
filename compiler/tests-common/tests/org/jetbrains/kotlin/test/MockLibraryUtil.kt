@@ -19,7 +19,7 @@ package org.jetbrains.kotlin.test
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.util.io.ZipUtil
 import org.jetbrains.kotlin.cli.common.CLICompiler
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.cli.js.K2JSCompiler
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 import org.jetbrains.kotlin.codegen.forTestCompile.ForTestCompileRuntime

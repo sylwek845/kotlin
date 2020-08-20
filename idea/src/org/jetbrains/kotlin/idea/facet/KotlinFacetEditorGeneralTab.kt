@@ -12,7 +12,6 @@ import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.HoverHyperlinkLabel
 import com.intellij.util.ui.FormBuilder
 import com.intellij.util.ui.ThreeStateCheckBox
-import org.jetbrains.kotlin.cli.common.arguments.*
 import org.jetbrains.kotlin.config.CompilerSettings
 import org.jetbrains.kotlin.config.createArguments
 import org.jetbrains.kotlin.config.splitArgumentString
@@ -27,6 +26,15 @@ import java.awt.BorderLayout
 import java.awt.Component
 import javax.swing.*
 import javax.swing.border.EmptyBorder
+import org.jetbrains.kotlin.cli.common.arguments.Argument
+import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.parseCommandLineArguments
+import org.jetbrains.kotlin.cli.common.arguments.validateArguments
+import org.jetbrains.kotlin.common.arguments.collectProperties
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.common.arguments.mergeBeans
+import org.jetbrains.kotlin.common.arguments.copyInheritedFields
 import kotlin.reflect.full.findAnnotation
 
 class KotlinFacetEditorGeneralTab(

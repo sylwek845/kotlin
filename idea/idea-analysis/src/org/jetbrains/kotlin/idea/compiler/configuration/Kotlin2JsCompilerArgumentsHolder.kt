@@ -18,7 +18,7 @@ package org.jetbrains.kotlin.idea.compiler.configuration
 
 import com.intellij.openapi.components.*
 import com.intellij.openapi.project.Project
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
 import org.jetbrains.kotlin.config.SettingConstants
 import org.jetbrains.kotlin.config.SettingConstants.KOTLIN_TO_JS_COMPILER_ARGUMENTS_SECTION
 

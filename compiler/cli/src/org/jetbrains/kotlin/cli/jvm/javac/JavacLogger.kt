@@ -18,9 +18,9 @@ package org.jetbrains.kotlin.cli.jvm.javac
 
 import com.sun.tools.javac.util.Context
 import com.sun.tools.javac.util.Log
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.GroupingMessageCollector
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.GroupingMessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import java.io.PrintWriter
 import java.io.Writer
 

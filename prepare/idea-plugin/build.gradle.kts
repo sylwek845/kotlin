@@ -23,6 +23,8 @@ val projectsToShadow by extra(listOf(
         ":compiler:ir.serialization.common",
         ":kotlin-build-common",
         ":compiler:cli-common",
+//        ":compiler:cli-messages",
+        ":compiler:cli-config-base",
         ":compiler:container",
         ":daemon-common",
         ":daemon-common-new",

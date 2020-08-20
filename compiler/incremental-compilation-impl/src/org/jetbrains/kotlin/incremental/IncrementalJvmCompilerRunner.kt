@@ -25,11 +25,11 @@ import com.intellij.psi.PsiJavaFile
 import org.jetbrains.kotlin.build.DEFAULT_KOTLIN_SOURCE_FILES_EXTENSIONS
 import org.jetbrains.kotlin.build.GeneratedFile
 import org.jetbrains.kotlin.build.GeneratedJvmClass
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.ExitCode
 import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
 import org.jetbrains.kotlin.cli.common.messages.FilteringMessageCollector
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
@@ -49,6 +49,8 @@ import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import java.io.File
+import org.jetbrains.kotlin.cli.common.incremental.destinationAsFile
+import org.jetbrains.kotlin.cli.common.incremental.classpathAsList
 
 fun makeIncrementally(
     cachesDir: File,
@@ -373,15 +375,3 @@ class IncrementalJvmCompilerRunner(
         return exitCode
     }
 }
-
-var K2JVMCompilerArguments.destinationAsFile: File
-    get() = File(destination)
-    set(value) {
-        destination = value.path
-    }
-
-var K2JVMCompilerArguments.classpathAsList: List<File>
-    get() = classpath.orEmpty().split(File.pathSeparator).map(::File)
-    set(value) {
-        classpath = value.joinToString(separator = File.pathSeparator, transform = { it.path })
-    }

@@ -11,11 +11,11 @@ import com.intellij.openapi.components.Storage
 import com.intellij.openapi.project.Project
 import org.jdom.Element
 import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
-import org.jetbrains.kotlin.cli.common.arguments.setApiVersionToLanguageVersionIfNeeded
+import org.jetbrains.kotlin.common.arguments.setApiVersionToLanguageVersionIfNeeded
 import org.jetbrains.kotlin.config.SettingConstants
 import org.jetbrains.kotlin.config.SettingConstants.KOTLIN_COMMON_COMPILER_ARGUMENTS_SECTION
-import org.jetbrains.kotlin.config.detectVersionAutoAdvance
 import org.jetbrains.kotlin.config.dropVersionsIfNecessary
+import org.jetbrains.kotlin.config.detectVersionAutoAdvance
 
 @State(name = KOTLIN_COMMON_COMPILER_ARGUMENTS_SECTION, storages = [(Storage(SettingConstants.KOTLIN_COMPILER_SETTINGS_FILE))])
 class KotlinCommonCompilerArgumentsHolder(project: Project) : BaseKotlinCompilerSettings<CommonCompilerArguments>(project) {

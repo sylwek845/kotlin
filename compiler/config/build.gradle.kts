@@ -7,6 +7,7 @@ dependencies {
     api(project(":core:metadata"))
     api(project(":core:compiler.common"))
     api(project(":compiler:util"))
+    compile(project(":compiler:cli-config-base"))
     compileOnly(intellijCoreDep()) { includeJars("intellij-core") }
 }
 

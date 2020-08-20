@@ -9,9 +9,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtil
 import org.jetbrains.kotlin.analyzer.AnalysisResult
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.cli.common.messages.MessageRenderer
-import org.jetbrains.kotlin.cli.common.messages.OutputMessageUtil
+import org.jetbrains.kotlin.cli.messages.OutputMessageUtil
 import org.jetbrains.kotlin.cli.common.messages.PrintingMessageCollector
 import org.jetbrains.kotlin.codegen.ClassBuilder
 import org.jetbrains.kotlin.codegen.ClassBuilderFactory

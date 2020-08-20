@@ -5,7 +5,7 @@
 
 package org.jetbrains.kotlin.daemon.report
 
-import org.jetbrains.kotlin.cli.common.ExitCode
+import  org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.daemon.common.CompilationResultCategory
 import org.jetbrains.kotlin.daemon.common.CompilationResults
 import org.jetbrains.kotlin.daemon.common.CompileIterationResult

@@ -25,7 +25,7 @@ import kotlin.text.Charsets;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.kotlin.checkers.AbstractForeignAnnotationsTestKt;
 import org.jetbrains.kotlin.cli.common.CLITool;
-import org.jetbrains.kotlin.cli.common.ExitCode;
+import org.jetbrains.kotlin.cli.config.common.ExitCode;
 import org.jetbrains.kotlin.cli.common.Usage;
 import org.jetbrains.kotlin.cli.js.K2JSCompiler;
 import org.jetbrains.kotlin.cli.js.dce.K2JSDce;
@@ -46,7 +46,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.jetbrains.kotlin.cli.common.arguments.PreprocessCommandLineArgumentsKt.ARGFILE_ARGUMENT;
+import static org.jetbrains.kotlin.common.arguments.PreprocessCommandLineArgumentsKt.ARGFILE_ARGUMENT;
 
 public abstract class AbstractCliTest extends TestCaseWithTmpdir {
     private static final String TESTDATA_DIR = "$TESTDATA_DIR$";

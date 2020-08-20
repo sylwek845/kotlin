@@ -19,13 +19,15 @@ package org.jetbrains.kotlin.daemon
 import com.intellij.openapi.Disposable
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
 import org.jetbrains.kotlin.cli.common.extensions.ReplFactoryExtension
-import org.jetbrains.kotlin.cli.common.messages.*
-import org.jetbrains.kotlin.cli.common.repl.*
+import org.jetbrains.kotlin.cli.messages.*
+import org.jetbrains.kotlin.cli.common.messages.MessageRenderer
+import org.jetbrains.kotlin.cli.common.messages.PrintingMessageCollector
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.cli.jvm.config.addJvmClasspathRoots
 import org.jetbrains.kotlin.cli.jvm.plugins.ServiceLoaderLite
 import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.config.*
+import org.jetbrains.kotlin.cli.common.repl.*
 import org.jetbrains.kotlin.daemon.common.CompileService
 import org.jetbrains.kotlin.daemon.common.CompilerId
 import org.jetbrains.kotlin.daemon.common.RemoteOperationsTracer

@@ -27,15 +27,15 @@ import org.jetbrains.kotlin.compilerRunner.OutputItemsCollectorImpl
 import org.jetbrains.kotlin.gradle.dsl.KotlinCommonCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformCommonOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformCommonOptionsImpl
-import org.jetbrains.kotlin.gradle.dsl.fillDefaultValues
 import org.jetbrains.kotlin.gradle.internal.tasks.allOutputFiles
 import org.jetbrains.kotlin.gradle.logging.GradlePrintingMessageCollector
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinCommonCompilation
 import org.jetbrains.kotlin.gradle.utils.getValue
 import org.jetbrains.kotlin.gradle.plugin.sources.getSourceSetHierarchy
-import org.jetbrains.kotlin.incremental.ChangedFiles
+import org.jetbrains.kotlin.gradle.incremental.ChangedFiles
 import java.io.File
+import org.jetbrains.kotlin.gradle.dsl.fillDefaultValues
 
 @CacheableTask
 open class KotlinCompileCommon : AbstractKotlinCompile<K2MetadataCompilerArguments>(), KotlinCommonCompile {

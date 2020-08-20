@@ -16,14 +16,18 @@
 
 package org.jetbrains.kotlin.cli.common
 
+import org.jetbrains.kotlin.cli.config.common.ExitCode
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.FilteringMessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.fusesource.jansi.AnsiConsole
 import org.jetbrains.kotlin.cli.common.arguments.CommonToolArguments
-import org.jetbrains.kotlin.cli.common.arguments.ManualLanguageFeatureSetting
+import org.jetbrains.kotlin.common.arguments.ManualLanguageFeatureSetting
 import org.jetbrains.kotlin.cli.common.arguments.parseCommandLineArguments
 import org.jetbrains.kotlin.cli.common.arguments.validateArguments
 import org.jetbrains.kotlin.cli.common.messages.*
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.INFO
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.STRONG_WARNING
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.INFO
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.STRONG_WARNING
 import org.jetbrains.kotlin.cli.jvm.compiler.CompileEnvironmentException
 import org.jetbrains.kotlin.cli.jvm.compiler.setupIdeaStandaloneExecution
 import org.jetbrains.kotlin.config.KotlinCompilerVersion

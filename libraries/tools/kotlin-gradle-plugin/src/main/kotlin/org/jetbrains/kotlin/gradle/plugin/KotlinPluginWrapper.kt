@@ -24,7 +24,6 @@ import org.gradle.api.internal.FeaturePreviews
 import org.gradle.api.internal.file.FileResolver
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
-import org.gradle.build.event.BuildEventsListenerRegistry
 import org.gradle.tooling.provider.model.ToolingModelBuilderRegistry
 import org.jetbrains.kotlin.gradle.dsl.*
 import org.jetbrains.kotlin.gradle.logging.kotlinDebug
@@ -39,7 +38,6 @@ import org.jetbrains.kotlin.gradle.targets.js.npm.addNpmDependencyExtension
 import org.jetbrains.kotlin.gradle.tasks.KOTLIN_COMPILER_EMBEDDABLE
 import org.jetbrains.kotlin.gradle.tasks.KOTLIN_KLIB_COMMONIZER_EMBEDDABLE
 import org.jetbrains.kotlin.gradle.tasks.KOTLIN_MODULE_GROUP
-import org.jetbrains.kotlin.gradle.tasks.throwGradleExceptionIfError
 import org.jetbrains.kotlin.gradle.testing.internal.KotlinTestsRegistry
 import org.jetbrains.kotlin.gradle.utils.checkGradleCompatibility
 import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
@@ -82,7 +80,7 @@ abstract class KotlinBasePluginWrapper(
         }
 
         // TODO: consider only set if if daemon or parallel compilation are enabled, though this way it should be safe too
-        System.setProperty(org.jetbrains.kotlin.cli.common.KOTLIN_COMPILER_ENVIRONMENT_KEEPALIVE_PROPERTY, "true")
+        System.setProperty(org.jetbrains.kotlin.cli.config.common.KOTLIN_COMPILER_ENVIRONMENT_KEEPALIVE_PROPERTY, "true")
 
         val kotlinGradleBuildServices = KotlinGradleBuildServices.getInstance(project, listenerRegistryHolder)
 

@@ -13,7 +13,7 @@ import com.intellij.openapi.vfs.local.CoreLocalFileSystem
 import com.intellij.psi.PsiManager
 import com.intellij.psi.SingleRootFileViewProvider
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.config.CompilerConfiguration

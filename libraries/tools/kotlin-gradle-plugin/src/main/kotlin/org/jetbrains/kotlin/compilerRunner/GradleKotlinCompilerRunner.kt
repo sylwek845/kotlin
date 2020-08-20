@@ -11,8 +11,7 @@ import org.gradle.api.logging.Logger
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import org.gradle.jvm.tasks.Jar
-import org.jetbrains.kotlin.cli.common.arguments.*
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.daemon.client.CompileServiceSession
 import org.jetbrains.kotlin.daemon.common.CompilerId
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtensionOrNull
@@ -36,6 +35,11 @@ import org.jetbrains.kotlin.statistics.metrics.BooleanMetrics
 import org.jetbrains.kotlin.statistics.metrics.StringMetrics
 import java.io.File
 import java.lang.ref.WeakReference
+import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.K2MetadataCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.parseCommandLineArguments
 
 internal const val KOTLIN_COMPILER_EXECUTION_STRATEGY_PROPERTY = "kotlin.compiler.execution.strategy"
 internal const val DAEMON_EXECUTION_STRATEGY = "daemon"

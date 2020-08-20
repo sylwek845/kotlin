@@ -16,6 +16,10 @@
 
 package org.jetbrains.kotlin.cli.common.messages
 
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.CompilerMessageLocation
+
 import com.intellij.openapi.util.io.FileUtil.toSystemDependentName
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
@@ -23,7 +27,7 @@ import com.intellij.psi.util.PsiFormatUtil
 import org.jetbrains.kotlin.analyzer.AbstractAnalyzerWithCompilerReport
 import org.jetbrains.kotlin.analyzer.AnalysisResult
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity.*
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity.*
 import org.jetbrains.kotlin.codegen.state.IncompatibleClassTrackerImpl
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.LanguageVersionSettings

@@ -17,7 +17,7 @@
 package org.jetbrains.kotlin.cli
 
 import com.intellij.ide.highlighter.JavaClassFileType
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 import org.jetbrains.kotlin.jvm.compiler.LoadDescriptorUtil
 import org.jetbrains.kotlin.load.java.JvmAnnotationNames

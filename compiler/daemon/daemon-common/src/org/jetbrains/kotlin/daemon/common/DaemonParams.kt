@@ -16,7 +16,7 @@
 
 package org.jetbrains.kotlin.daemon.common
 
-import org.jetbrains.kotlin.cli.common.KOTLIN_COMPILER_ENVIRONMENT_KEEPALIVE_PROPERTY
+import org.jetbrains.kotlin.cli.config.common.KOTLIN_COMPILER_ENVIRONMENT_KEEPALIVE_PROPERTY
 import java.io.File
 import java.io.Serializable
 import java.lang.management.ManagementFactory

@@ -113,7 +113,7 @@ abstract class AbstractKotlinTargetConfigurator<KotlinTargetType : KotlinTarget>
 
         target.compilations.all { compilation ->
             if (createDefaultSourceSets) {
-                project.kotlinExtension.sourceSets.maybeCreate(compilation.defaultSourceSetName).also { sourceSet ->
+                project.kotlinExtension.sourceSets.getByName(compilation.defaultSourceSetName).also { sourceSet ->
                     compilation.source(sourceSet) // also adds dependencies, requires the configurations for target and source set to exist at this point
                 }
             }
@@ -125,6 +125,11 @@ abstract class AbstractKotlinTargetConfigurator<KotlinTargetType : KotlinTarget>
 
         target.compilations.all { compilation ->
             defineConfigurationsForCompilation(compilation)
+
+            if (createDefaultSourceSets) {
+                project.kotlinExtension.sourceSets.maybeCreate(compilation.defaultSourceSetName)
+                //can't set source set here: it cause after evaluate action and brake benchmark
+            }
 
             if (compilation is KotlinCompilationWithResources) {
                 configureResourceProcessing(compilation, project.files(Callable { compilation.allKotlinSourceSets.map { it.resources } }))

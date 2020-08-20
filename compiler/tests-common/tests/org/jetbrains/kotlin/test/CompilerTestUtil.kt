@@ -17,7 +17,7 @@
 package org.jetbrains.kotlin.test
 
 import org.jetbrains.kotlin.cli.common.CLITool
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 import java.io.ByteArrayOutputStream
 import java.io.File

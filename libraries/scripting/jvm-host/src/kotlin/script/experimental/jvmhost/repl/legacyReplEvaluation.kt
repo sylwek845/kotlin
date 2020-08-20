@@ -9,7 +9,6 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.kotlin.cli.common.repl.*
 import org.jetbrains.kotlin.cli.common.repl.ReplEvaluator
 import java.util.concurrent.locks.ReentrantReadWriteLock
-import kotlin.concurrent.write
 import kotlin.reflect.KClass
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.jvm.BasicJvmScriptEvaluator
@@ -17,6 +16,7 @@ import kotlin.script.experimental.jvm.baseClassLoader
 import kotlin.script.experimental.jvm.impl.KJvmCompiledScript
 import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.util.LinkedSnippetImpl
+import kotlin.concurrent.write
 
 /**
  * REPL Evaluation wrapper for "legacy" REPL APIs defined in the org.jetbrains.kotlin.cli.common.repl package

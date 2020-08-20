@@ -21,6 +21,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.utils.fileUtils.FileUtilsKt;
 
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSourceLocation;
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity;
+
 import java.io.File;
 
 public interface MessageRenderer {

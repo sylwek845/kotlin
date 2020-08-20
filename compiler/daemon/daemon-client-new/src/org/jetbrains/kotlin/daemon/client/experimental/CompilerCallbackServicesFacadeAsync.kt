@@ -6,7 +6,7 @@
 package org.jetbrains.kotlin.daemon.client.experimental
 
 import io.ktor.network.sockets.Socket
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.daemon.client.reportFromDaemon
 import org.jetbrains.kotlin.daemon.common.experimental.*
 import org.jetbrains.kotlin.daemon.common.experimental.socketInfrastructure.Server

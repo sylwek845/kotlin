@@ -6,7 +6,7 @@
 package org.jetbrains.kotlin.daemon.experimental
 
 import com.intellij.openapi.Disposable
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 import org.jetbrains.kotlin.cli.common.repl.IReplStageState
 import org.jetbrains.kotlin.daemon.KotlinJvmReplServiceBase
 import org.jetbrains.kotlin.daemon.common.CompileService

@@ -31,6 +31,7 @@ dependencies {
     testCompile(project(":compiler:frontend.java"))
     testCompile(project(":compiler:util"))
     testCompile(project(":compiler:cli-common"))
+    testCompile(project(":compiler:cli-config-base"))
     testCompile(project(":compiler:cli"))
     testCompile(project(":compiler:cli-js"))
     testCompile(project(":compiler:light-classes"))

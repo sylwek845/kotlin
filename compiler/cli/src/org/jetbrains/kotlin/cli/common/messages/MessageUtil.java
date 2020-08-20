@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.diagnostics.DiagnosticUtils;
 import org.jetbrains.kotlin.diagnostics.PsiDiagnosticUtils;
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSourceLocation;
+import org.jetbrains.kotlin.cli.messages.CompilerMessageLocationWithRange;
 
 import static com.intellij.openapi.util.io.FileUtil.toSystemDependentName;
 

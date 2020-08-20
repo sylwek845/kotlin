@@ -22,7 +22,6 @@ import com.intellij.openapi.util.Disposer
 import junit.framework.TestCase
 import org.jetbrains.kotlin.cli.common.messages.MessageRenderer
 import org.jetbrains.kotlin.cli.common.messages.PrintingMessageCollector
-import org.jetbrains.kotlin.cli.common.repl.*
 import org.jetbrains.kotlin.cli.jvm.config.jvmClasspathRoots
 import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.integration.KotlinIntegrationTestBase
@@ -40,6 +39,8 @@ import java.io.File
 import java.net.URLClassLoader
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import org.jetbrains.kotlin.cli.common.repl.*
+import org.jetbrains.kotlin.common.repl.GenericReplCompilingEvaluator
 
 class GenericReplTest : KtUsefulTestCase() {
     fun testReplBasics() {

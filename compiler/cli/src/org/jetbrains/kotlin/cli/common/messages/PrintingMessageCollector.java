@@ -19,6 +19,10 @@ package org.jetbrains.kotlin.cli.common.messages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import org.jetbrains.kotlin.cli.messages.MessageCollector;
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity;
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSourceLocation;
+
 import java.io.PrintStream;
 
 public class PrintingMessageCollector implements MessageCollector {

@@ -19,6 +19,7 @@ package org.jetbrains.kotlin.cli.common.messages
 import com.intellij.psi.PsiFile
 import org.jetbrains.kotlin.diagnostics.Diagnostic
 import org.jetbrains.kotlin.diagnostics.DiagnosticUtils
+import org.jetbrains.kotlin.cli.messages.MessageCollector
 
 /**
  * This class behaviour is the same as [MessageCollector.report] in [AnalyzerWithCompilerReport.reportDiagnostic].

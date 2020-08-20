@@ -89,6 +89,8 @@ dependencies {
     compile(project(":kotlin-script-util")) { isTransitive = false }
     compile(project(":kotlin-scripting-intellij"))
     compile(project(":compiler:backend.jvm")) // Do not delete, for Pill
+    compile(project(":compiler:cli-messages"))
+    compile(project(":compiler:cli-common"))
 
     compile(commonDep("org.jetbrains.kotlinx", "kotlinx-coroutines-core")) { isTransitive = false }
 

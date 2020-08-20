@@ -5,6 +5,9 @@
 
 package org.jetbrains.kotlin.cli.common.messages
 
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.messages.CompilerMessageSourceLocation
+
 class GradleStyleMessageRenderer : MessageRenderer {
 
     override fun render(severity: CompilerMessageSeverity, message: String, location: CompilerMessageSourceLocation?): String {

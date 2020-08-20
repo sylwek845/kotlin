@@ -12,18 +12,25 @@ import com.intellij.util.xmlb.XmlSerializer
 import org.jdom.DataConversionException
 import org.jdom.Element
 import org.jdom.Text
-import org.jetbrains.kotlin.cli.common.arguments.*
 import org.jetbrains.kotlin.load.java.JvmAbi
 import org.jetbrains.kotlin.platform.*
 import org.jetbrains.kotlin.platform.impl.FakeK2NativeCompilerArguments
 import org.jetbrains.kotlin.platform.impl.JvmIdePlatformKind
+import org.jetbrains.kotlin.platform.js.JsPlatform
 import org.jetbrains.kotlin.platform.js.isJs
 import org.jetbrains.kotlin.platform.jvm.JdkPlatform
+import org.jetbrains.kotlin.platform.jvm.JvmPlatform
 import org.jetbrains.kotlin.platform.jvm.isJvm
 import org.jetbrains.kotlin.platform.konan.*
 import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
 import kotlin.reflect.full.superclasses
+import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.K2MetadataCompilerArguments
+import org.jetbrains.kotlin.common.arguments.K2JSCompilerArguments
+import org.jetbrains.kotlin.common.arguments.copyBean
+import org.jetbrains.kotlin.utils.addToStdlib.safeAs
 
 fun Element.getOption(name: String) = getChildren("option").firstOrNull { it.getAttribute("name").value == name }
 

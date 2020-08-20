@@ -20,7 +20,6 @@ import com.intellij.openapi.util.io.FileUtil
 import com.intellij.util.io.ZipUtil
 import org.jetbrains.kotlin.cli.AbstractCliTest
 import org.jetbrains.kotlin.cli.common.CLICompiler
-import org.jetbrains.kotlin.cli.common.ExitCode
 import org.jetbrains.kotlin.cli.js.K2JSCompiler
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 import org.jetbrains.kotlin.cli.metadata.K2MetadataCompiler
@@ -30,6 +29,7 @@ import java.io.File
 import java.util.jar.JarOutputStream
 import java.util.jar.Manifest
 import java.util.regex.Pattern
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 
 abstract class AbstractKotlinCompilerIntegrationTest : TestCaseWithTmpdir() {
     protected abstract val testDataPath: String

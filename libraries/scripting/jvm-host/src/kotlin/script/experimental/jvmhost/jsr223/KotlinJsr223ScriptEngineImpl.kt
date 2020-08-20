@@ -6,7 +6,6 @@
 package kotlin.script.experimental.jvmhost.jsr223
 
 import org.jetbrains.kotlin.cli.common.repl.*
-import org.jetbrains.kotlin.cli.common.repl.ReplCompilerWithoutCheck
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import javax.script.ScriptContext
 import javax.script.ScriptEngineFactory
@@ -19,6 +18,7 @@ import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.jvmhost.repl.JvmReplCompiler
 import kotlin.script.experimental.jvmhost.repl.JvmReplEvaluator
 import kotlin.script.experimental.jvmhost.repl.JvmReplEvaluatorState
+import org.jetbrains.kotlin.common.repl.GenericReplCompilingEvaluatorBase
 
 // TODO: reimplement without legacy REPL infrastructure
 

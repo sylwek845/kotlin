@@ -60,6 +60,11 @@ gradleEnterprise {
 
 BuildCacheKt.setupBuildCache(settings)
 
+include ":compiler:cli-common",
+        ":compiler:cli-config-base",
+        ":compiler:cli-messages",
+        ":compiler:cli-config-jvm"
+
 // modules
 include ":benchmarks",
         ":compiler",
@@ -91,7 +96,6 @@ include ":benchmarks",
         ":compiler:frontend.common",
         ":compiler:frontend.java",
         ":kotlin-compiler-runner",
-        ":compiler:cli-common",
         ":compiler:ir.tree",
         ":compiler:ir.tree.impl",
         ":compiler:ir.tree.persistent",
@@ -443,7 +447,12 @@ project(':kotlin-compiler-embeddable').projectDir = "$rootDir/prepare/compiler-e
 project(':kotlin-compiler-client-embeddable').projectDir = "$rootDir/prepare/compiler-client-embeddable" as File
 project(':kotlin-preloader').projectDir = "$rootDir/compiler/preloader" as File
 project(':kotlin-build-common').projectDir = "$rootDir/build-common" as File
+
 project(':compiler:cli-common').projectDir = "$rootDir/compiler/cli/cli-common" as File
+project(':compiler:cli-config-base').projectDir = "$rootDir/compiler/cli/cli-config-base" as File
+project(':compiler:cli-messages').projectDir = "$rootDir/compiler/cli/cli-messages" as File
+project(":compiler:cli-config-jvm").projectDir = "$rootDir/compiler/cli/cli-config-jvm" as File
+
 project(':compiler:cli-js').projectDir = "$rootDir/compiler/cli/cli-js" as File
 project(':compiler:cli-js-klib').projectDir = "$rootDir/compiler/cli/cli-js-klib" as File
 project(':kotlin-runner').projectDir = "$rootDir/compiler/cli/cli-runner" as File
@@ -550,7 +559,7 @@ project(':plugins:jvm-abi-gen').projectDir = "$rootDir/plugins/jvm-abi-gen" as F
 project(':plugins:jvm-abi-gen-embeddable').projectDir = "$rootDir/plugins/jvm-abi-gen/embeddable" as File
 project(":dukat").projectDir = "$rootDir/libraries/tools/dukat" as File
 
-project(':js:js.tests').projectDir =  "$rootDir/js/js.tests" as File
+project(':js:js.tests').projectDir = "$rootDir/js/js.tests" as File
 project(':js:js.engines').projectDir = "$rootDir/js/js.engines" as File
 
 project(':kotlinx-serialization-compiler-plugin').projectDir = file("$rootDir/plugins/kotlin-serialization/kotlin-serialization-compiler")

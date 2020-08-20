@@ -18,7 +18,7 @@ package org.jetbrains.kotlin.cli.common;
 
 import org.jetbrains.kotlin.backend.common.phaser.PhaseConfig;
 import org.jetbrains.kotlin.cli.common.config.ContentRoot;
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector;
+import org.jetbrains.kotlin.cli.messages.MessageCollector;
 import org.jetbrains.kotlin.config.CompilerConfigurationKey;
 
 import java.io.File;

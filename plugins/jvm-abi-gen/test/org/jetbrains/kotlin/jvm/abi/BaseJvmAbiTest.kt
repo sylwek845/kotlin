@@ -6,7 +6,7 @@
 package org.jetbrains.kotlin.jvm.abi
 
 import junit.framework.TestCase
-import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.cli.config.common.ExitCode
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 import org.jetbrains.kotlin.config.Services
 import java.io.File
