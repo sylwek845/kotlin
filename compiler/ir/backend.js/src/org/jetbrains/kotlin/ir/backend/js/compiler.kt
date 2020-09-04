@@ -51,6 +51,7 @@ fun compile(
     traceMethods: Boolean = false,
     focusOnTest: String? = null,
     forceAllJs: Boolean = false,
+    exportAll: Boolean = false,
 ): CompilerResult {
     stageController = object : StageController {}
 
@@ -112,6 +113,7 @@ fun compile(
             multiModule = multiModule,
             relativeRequirePath = relativeRequirePath,
             traceMethods = traceMethods,
+            exportAll = exportAll,
         )
         return transformer.generateModule(allModules)
     }

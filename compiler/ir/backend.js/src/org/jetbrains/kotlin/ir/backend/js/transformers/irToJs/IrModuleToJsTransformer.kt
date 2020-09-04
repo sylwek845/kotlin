@@ -34,6 +34,7 @@ class IrModuleToJsTransformer(
     private val multiModule: Boolean = false,
     private val relativeRequirePath: Boolean = false,
     private val traceMethods: Boolean = false,
+    private val exportAll: Boolean = false,
 ) {
     private val generateRegionComments = backendContext.configuration.getBoolean(JSConfigurationKeys.GENERATE_REGION_COMMENTS)
 
@@ -45,7 +46,7 @@ class IrModuleToJsTransformer(
             ) + packageLevelJsModules
         }
 
-        val exportedModule = ExportModelGenerator(backendContext).generateExport(modules)
+        val exportedModule = ExportModelGenerator(backendContext, exportAll).generateExport(modules)
         val dts = exportedModule.toTypeScript()
 
         modules.forEach { module ->
@@ -95,7 +96,7 @@ class IrModuleToJsTransformer(
             val dependencies = others.mapIndexed { index, module ->
                 val moduleName = sanitizeName(module.safeName)
 
-                val exportedDeclarations = ExportModelGenerator(backendContext).let { module.files.flatMap { file -> it.generateExport(file) } }
+                val exportedDeclarations = ExportModelGenerator(backendContext, exportAll).let { module.files.flatMap { file -> it.generateExport(file) } }
 
                 moduleName to generateWrappedModuleBody2(
                     listOf(module),

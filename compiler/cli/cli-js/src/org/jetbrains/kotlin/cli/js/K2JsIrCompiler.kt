@@ -241,6 +241,7 @@ class K2JsIrCompiler : CLICompiler<K2JSCompilerArguments>() {
                     traceMethods = arguments.traceMethods,
                     focusOnTest = arguments.irFocusOnTest,
                     forceAllJs = arguments.irForceAllJs,
+                    exportAll = arguments.irExportAll,
                 )
             } catch (e: JsIrCompilationError) {
                 return COMPILATION_ERROR
