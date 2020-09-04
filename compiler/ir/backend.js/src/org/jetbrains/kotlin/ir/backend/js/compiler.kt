@@ -52,6 +52,7 @@ fun compile(
     focusOnTest: String? = null,
     forceAllJs: Boolean = false,
     exportAll: Boolean = false,
+    legacyPropertyAccess: Boolean = false,
 ): CompilerResult {
     stageController = object : StageController {}
 
@@ -114,6 +115,7 @@ fun compile(
             relativeRequirePath = relativeRequirePath,
             traceMethods = traceMethods,
             exportAll = exportAll,
+            legacyPropertyAccess = legacyPropertyAccess,
         )
         return transformer.generateModule(allModules)
     }

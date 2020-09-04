@@ -17,6 +17,7 @@ class JsStaticContext(
     val backendContext: JsIrBackendContext,
     private val irNamer: IrNamer,
     val traceMethods: Boolean,
+    val legacyPropertyAccess: Boolean,
 ) : IrNamer by irNamer {
 
     val intrinsics = JsIntrinsicTransformers(backendContext)

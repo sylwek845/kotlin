@@ -103,7 +103,7 @@ fun translateCall(
     // @JsName-annotated external property accessors are translated as function calls
     if (function.getJsName() == null) {
         val property = function.correspondingPropertySymbol?.owner
-        if (property != null && property.isEffectivelyExternal()) {
+        if (property != null && (context.staticContext.legacyPropertyAccess || property.isEffectivelyExternal())) {
             val nameRef = JsNameRef(context.getNameForProperty(property), jsDispatchReceiver)
             return when (function) {
                 property.getter -> nameRef
