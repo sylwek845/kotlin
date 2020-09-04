@@ -147,10 +147,10 @@ class K2JSCompilerArguments : CommonCompilerArguments() {
     @Argument(value = "-Xir-force-all-js", description = "Compile all the code unconditionally")
     var irForceAllJs: Boolean by FreezableVar(false)
 
-    @Argument(value = "-Xir-export-all", description = "Compile all the code unconditionally")
+    @Argument(value = "-Xir-export-all", description = "Export all declarations")
     var irExportAll: Boolean by FreezableVar(false)
 
-    @Argument(value = "-Xir-legacy-propery-access", description = "Compile all the code unconditionally")
+    @Argument(value = "-Xir-legacy-property-access", description = "Force property access via JS properties (requires -Xir-export-all)")
     var irLegacyPropertyAccess: Boolean by FreezableVar(false)
 
     @Argument(value = "-Xir-per-module", description = "Splits generated .js per-module")
