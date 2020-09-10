@@ -167,10 +167,15 @@ projectTest(parallel = true) {
     inputs.dir(rootDir.resolve("libraries/stdlib/api/js"))
     inputs.dir(rootDir.resolve("libraries/stdlib/api/js-v1"))
 
+    systemProperty("kotlin.js.test.root.out.dir", "$buildDir/")
+    outputs.dir("$buildDir/out")
+    outputs.dir("$buildDir/out-min")
+    outputs.dir("$buildDir/out-pir")
+
     useJUnitPlatform()
     distribution {
         enabled.set(true)
-        maxRemoteExecutors.set(16)
+        maxRemoteExecutors.set(20)
     }
 }
 
@@ -219,24 +224,24 @@ testsJar {}
 
 val generateTests by generator("org.jetbrains.kotlin.generators.tests.GenerateJsTestsKt")
 
-val nodeDir = buildDir.resolve("node")
-extensions.getByType(NodeExtension::class.java).nodeModulesDir = nodeDir
+extensions.getByType(NodeExtension::class.java).nodeModulesDir = buildDir
 
 val prepareMochaTestData by tasks.registering(Copy::class) {
     from(rootDir.resolve("js/js.translator/testData")) {
-        include("**/*")
+        include("package.json")
+        include("test.js")
     }
-    into(nodeDir)
+    into(buildDir)
 }
 
 val npmInstall by tasks.getting(NpmTask::class) {
     dependsOn(prepareMochaTestData)
-    setWorkingDir(nodeDir)
+    setWorkingDir(buildDir)
 }
 
 val runMocha by task<NpmTask> {
     dependsOn(":dist")
-    setWorkingDir(nodeDir)
+    setWorkingDir(buildDir)
 
     val target = if (project.hasProperty("teamcity")) "runOnTeamcity" else "test"
     setArgs(listOf("run", target))
