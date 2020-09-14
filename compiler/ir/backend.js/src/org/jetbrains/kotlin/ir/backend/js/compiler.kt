@@ -66,7 +66,7 @@ fun compile(
         is MainModule.Klib -> dependencyModules
     }
 
-    val context = JsIrBackendContext(moduleDescriptor, irBuiltIns, symbolTable, allModules.first(), exportedDeclarations, configuration, es6mode = es6mode)
+    val context = JsIrBackendContext(moduleDescriptor, irBuiltIns, symbolTable, allModules.first(), exportedDeclarations, configuration, es6mode = es6mode, exportAll = exportAll)
 
     // Load declarations referenced during `context` initialization
     val irProviders = listOf(deserializer)
@@ -114,7 +114,6 @@ fun compile(
             multiModule = multiModule,
             relativeRequirePath = relativeRequirePath,
             traceMethods = traceMethods,
-            exportAll = exportAll,
             legacyPropertyAccess = legacyPropertyAccess,
         )
         return transformer.generateModule(allModules)

@@ -24,10 +24,7 @@ import org.jetbrains.kotlin.ir.types.*
 import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.utils.addIfNotNull
 
-class ExportModelGenerator(
-    val context: JsIrBackendContext,
-    private val exportAll: Boolean,
-) {
+class ExportModelGenerator(val context: JsIrBackendContext) {
 
     fun generateExport(file: IrPackageFragment): List<ExportedDeclaration> {
         val namespaceFqName = file.fqName
@@ -306,27 +303,6 @@ class ExportModelGenerator(
 
         return Exportability.Allowed
     }
-
-    private fun shouldDeclarationBeExported(declaration: IrDeclarationWithName, context: JsIrBackendContext): Boolean {
-        if (exportAll) return true
-
-        if (declaration.fqNameWhenAvailable in context.additionalExportedDeclarations)
-            return true
-
-        if (declaration.isJsExport())
-            return true
-
-        return when (val parent = declaration.parent) {
-            is IrDeclarationWithName -> shouldDeclarationBeExported(parent, context)
-            is IrAnnotationContainer -> parent.isJsExport()
-            else -> false
-        }
-    }
-
-    fun IrDeclaration.isExported(context: JsIrBackendContext): Boolean {
-        val candidate = getExportCandidate(this) ?: return false
-        return shouldDeclarationBeExported(candidate, context)
-    }
 }
 
 sealed class Exportability {
@@ -362,6 +338,27 @@ private fun getExportCandidate(declaration: IrDeclaration): IrDeclarationWithNam
     }
 
     return declaration
+}
+
+private fun shouldDeclarationBeExported(declaration: IrDeclarationWithName, context: JsIrBackendContext): Boolean {
+    if (context.exportAll) return true
+
+    if (declaration.fqNameWhenAvailable in context.additionalExportedDeclarations)
+        return true
+
+    if (declaration.isJsExport())
+        return true
+
+    return when (val parent = declaration.parent) {
+        is IrDeclarationWithName -> shouldDeclarationBeExported(parent, context)
+        is IrAnnotationContainer -> parent.isJsExport()
+        else -> false
+    }
+}
+
+fun IrDeclaration.isExported(context: JsIrBackendContext): Boolean {
+    val candidate = getExportCandidate(this) ?: return false
+    return shouldDeclarationBeExported(candidate, context)
 }
 
 private val reservedWords = setOf(
