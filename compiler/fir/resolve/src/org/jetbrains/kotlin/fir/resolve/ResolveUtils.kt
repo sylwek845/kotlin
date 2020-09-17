@@ -33,6 +33,7 @@ import org.jetbrains.kotlin.fir.types.impl.ConeClassLikeTypeImpl
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
+import org.jetbrains.kotlin.types.TypeApproximatorConfiguration
 
 fun List<FirQualifierPart>.toTypeProjections(): Array<ConeTypeProjection> =
     asReversed().flatMap { it.typeArgumentList.typeArguments.map { typeArgument -> typeArgument.toConeTypeProjection() } }.toTypedArray()
@@ -175,7 +176,13 @@ fun <T : FirResolvable> BodyResolveComponents.typeFromCallee(access: T): FirReso
             typeFromSymbol(newCallee.candidateSymbol, false)
         }
         is FirResolvedNamedReference -> {
-            typeFromSymbol(newCallee.resolvedSymbol, false)
+            typeFromSymbol(newCallee.resolvedSymbol, false).let {
+                it.withReplacedConeType(
+                    session.inferenceComponents.approximator.approximateToSuperType(
+                        it.type, TypeApproximatorConfiguration.FinalApproximationAfterResolutionAndInference
+                    ) as ConeKotlinType?
+                )
+            }
         }
         is FirThisReference -> {
             val labelName = newCallee.labelName
