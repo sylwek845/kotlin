@@ -260,10 +260,15 @@ class FirCallCompletionResultsWriterTransformer(
         candidate: Candidate,
     ): FirResolvedTypeRef {
         val initialType = candidate.substitutor.substituteOrSelf(type)
-        val finalType = finalSubstitutor.substituteOrNull(initialType)?.let { substitutedType ->
+        val substitutedType = finalSubstitutor.substituteOrNull(initialType)
+        val finalType = if (substitutedType != null) {
             typeApproximator.approximateToSuperType(
                 substitutedType, TypeApproximatorConfiguration.FinalApproximationAfterResolutionAndInference,
             ) as ConeKotlinType? ?: substitutedType
+        } else {
+            typeApproximator.approximateToSuperType(
+                initialType, TypeApproximatorConfiguration.FinalApproximationAfterResolutionAndInference,
+            ) as ConeKotlinType?
         }
 
         return withReplacedConeType(finalType)
