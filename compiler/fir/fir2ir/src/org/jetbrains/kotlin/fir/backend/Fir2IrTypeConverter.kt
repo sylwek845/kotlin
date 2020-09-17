@@ -101,7 +101,7 @@ class Fir2IrTypeConverter(
                 upperBound.toIrType(typeContext)
             }
             is ConeCapturedType -> {
-                throw IllegalStateException("Captured types should not persist at the end of resolve: ${this.render()}")
+                lowerType?.toIrType(typeContext) ?: constructor.supertypes!!.first().toIrType(typeContext)
             }
             is ConeDefinitelyNotNullType -> {
                 original.toIrType(typeContext.definitelyNotNull())
