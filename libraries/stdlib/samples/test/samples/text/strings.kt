@@ -408,4 +408,17 @@ class Strings {
         assertPrints(matchDetails(inputString, toFind, 2), "Searching for 'ever' in 'Never ever give up' starting at position 2: Found at 6")
         assertPrints(matchDetails(inputString, toFind, 10), "Searching for 'ever' in 'Never ever give up' starting at position 10: Not found")
     }
+
+    @Sample
+    fun contentEquals() {
+        val stringBuilder = StringBuilder()
+        stringBuilder.append("Kot").append("lin")
+        assertPrints(stringBuilder, "Kotlin")
+        assertTrue(stringBuilder.contentEquals("Kotlin"))
+
+        stringBuilder.setCharAt(0, 'k')
+        assertPrints(stringBuilder, "kotlin")
+        assertFalse("Kotlin".contentEquals(stringBuilder))
+        assertTrue("Kotlin".contentEquals(stringBuilder, ignoreCase = true))
+    }
 }
