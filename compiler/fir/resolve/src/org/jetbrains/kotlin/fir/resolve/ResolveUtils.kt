@@ -175,11 +175,11 @@ fun <T : FirResolvable> BodyResolveComponents.typeFromCallee(access: T): FirReso
             typeFromSymbol(newCallee.candidateSymbol, false)
         }
         is FirResolvedNamedReference -> {
-            typeFromSymbol(newCallee.resolvedSymbol, false).let {
-                it.withReplacedConeType(
-                    session.inferenceComponents.approximator.approximateToSuperType(
-                        it.type, TypeApproximatorConfiguration.FinalApproximationAfterResolutionAndInference
-                    ) as ConeKotlinType?
+            typeFromSymbol(newCallee.resolvedSymbol, false).let { originalTypeRef ->
+                originalTypeRef.withReplacedConeType(
+                    (session.inferenceComponents.approximator.approximateToSuperType(
+                        originalTypeRef.type, TypeApproximatorConfiguration.FinalApproximationAfterResolutionAndInference
+                    ) as ConeKotlinType?).takeIf { approximated -> approximated?.contains { it is ConeClassErrorType } != true }
                 )
             }
         }

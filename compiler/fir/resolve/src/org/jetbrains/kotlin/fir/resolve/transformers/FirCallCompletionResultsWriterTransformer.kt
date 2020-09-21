@@ -265,7 +265,9 @@ class FirCallCompletionResultsWriterTransformer(
             type = substitutedType ?: initialType, TypeApproximatorConfiguration.FinalApproximationAfterResolutionAndInference,
         ) as ConeKotlinType? ?: substitutedType
 
-        return withReplacedConeType(finalType)
+        return withReplacedConeType(
+            if (finalType?.contains { it is ConeClassErrorType } != true) finalType else (substitutedType ?: initialType)
+        )
     }
 
     override fun transformSafeCallExpression(
