@@ -300,7 +300,7 @@ abstract class DataClassMembersGenerator(
 
     // Entry for psi2ir
     fun generateCopyFunction(function: FunctionDescriptor, constructorSymbol: IrConstructorSymbol) {
-        buildMember(function, irClass.startOffset, irClass.endOffset) {
+        buildMember(function) {
             function.valueParameters.forEach { parameter ->
                 putDefault(parameter, irGetField(irThis(), getBackingField(parameter, null)!!))
             }
@@ -310,7 +310,7 @@ abstract class DataClassMembersGenerator(
 
     // Entry for fir2ir
     fun generateCopyFunction(irFunction: IrFunction, constructorSymbol: IrConstructorSymbol) {
-        buildMember(irFunction, irClass.startOffset, irClass.endOffset) {
+        buildMember(irFunction) {
             irFunction.valueParameters.forEach { irValueParameter ->
                 irValueParameter.defaultValue = irExprBody(irGetField(irThis(), getBackingField(null, irValueParameter)!!))
             }
@@ -320,14 +320,14 @@ abstract class DataClassMembersGenerator(
 
     // Entry for psi2ir
     fun generateEqualsMethod(function: FunctionDescriptor, properties: List<PropertyDescriptor>) {
-        buildMember(function, irClass.startOffset, irClass.endOffset) {
+        buildMember(function) {
             generateEqualsMethodBody(properties)
         }
     }
 
     // Entry for fir2ir
     fun generateEqualsMethod(irFunction: IrFunction, properties: List<PropertyDescriptor>) {
-        buildMember(irFunction, irClass.startOffset, irClass.endOffset) {
+        buildMember(irFunction) {
             generateEqualsMethodBody(properties)
         }
     }
@@ -368,28 +368,28 @@ abstract class DataClassMembersGenerator(
 
     // Entry for psi2ir
     fun generateHashCodeMethod(function: FunctionDescriptor, properties: List<PropertyDescriptor>) {
-        buildMember(function, irClass.startOffset, irClass.endOffset) {
+        buildMember(function) {
             generateHashCodeMethodBody(properties)
         }
     }
 
     // Entry for fir2ir
     fun generateHashCodeMethod(irFunction: IrFunction, properties: List<PropertyDescriptor>) {
-        buildMember(irFunction, irClass.startOffset, irClass.endOffset) {
+        buildMember(irFunction) {
             generateHashCodeMethodBody(properties)
         }
     }
 
     // Entry for psi2ir
     fun generateToStringMethod(function: FunctionDescriptor, properties: List<PropertyDescriptor>) {
-        buildMember(function, irClass.startOffset, irClass.endOffset) {
+        buildMember(function) {
             generateToStringMethodBody(properties)
         }
     }
 
     // Entry for fir2ir
     fun generateToStringMethod(irFunction: IrFunction, properties: List<PropertyDescriptor>) {
-        buildMember(irFunction, irClass.startOffset, irClass.endOffset) {
+        buildMember(irFunction) {
             generateToStringMethodBody(properties)
         }
     }

@@ -18,6 +18,7 @@ package org.jetbrains.kotlin.psi2ir.generators
 
 import org.jetbrains.kotlin.backend.common.DataClassMethodGenerator
 import org.jetbrains.kotlin.descriptors.*
+import org.jetbrains.kotlin.ir.UNDEFINED_OFFSET
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.IrMemberAccessExpression
 import org.jetbrains.kotlin.ir.types.IrType
@@ -94,7 +95,7 @@ class DataClassMembersGenerator(
 
             val backingField = irDataClassMembersGenerator.getBackingField(parameter, null) ?: return
             irDataClassMembersGenerator.generateComponentFunction(
-                function, backingField, ktParameter.startOffset, ktParameter.endOffset
+                function, backingField, UNDEFINED_OFFSET, UNDEFINED_OFFSET
             )
         }
 
