@@ -453,7 +453,7 @@ open class SerializerIrGenerator(val irClass: IrClass, final override val compil
 
                     val exceptionFqn = getSerializationPackageFqn(UNKNOWN_FIELD_EXC)
                     val excClassRef = compilerContext.referenceConstructors(exceptionFqn)
-                        .single { it.owner.valueParameters.size == 1 && it.owner.valueParameters.first().type.isInt() }
+                        .single { it.owner.valueParameters.singleOrNull()?.type?.isInt() == true }
                     +elseBranch(
                         irThrow(
                             irInvoke(
