@@ -244,7 +244,7 @@ projectTest(parallel = true) {
 
     useJUnitPlatform()
     distribution {
-        enabled.set(true)
+        enabled.set(false)
         maxRemoteExecutors.set(8)
     }
 }
