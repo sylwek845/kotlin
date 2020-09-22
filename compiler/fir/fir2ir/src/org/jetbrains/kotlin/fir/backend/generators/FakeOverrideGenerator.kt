@@ -58,21 +58,83 @@ class FakeOverrideGenerator(
         }
     }
 
+    private fun FirNamedFunctionSymbol.clashesWithProperty(candidates: List<IrProperty>): Boolean {
+        return candidates.any {
+            val capitalizedName = it.name.asString().capitalize()
+            val clashesWithGetter = "get$capitalizedName" == callableId.callableName.asString() && fir.valueParameters.isEmpty()
+            val clashesWithSetter = it.isVar && "set$capitalizedName" == callableId.callableName.asString() && fir.valueParameters.size == 1
+            clashesWithGetter || clashesWithSetter
+        }
+    }
+
     fun IrClass.addFakeOverrides(klass: FirClass<*>, processedCallableNames: MutableSet<Name>) {
         declarations += getFakeOverrides(klass, processedCallableNames)
     }
 
     fun IrClass.getFakeOverrides(klass: FirClass<*>, processedCallableNames: MutableSet<Name>): List<IrDeclaration> {
-        val result = mutableListOf<IrDeclaration>()
+        val functions = mutableListOf<IrSimpleFunction>()
+        val properties = mutableListOf<IrProperty>()
         if (fakeOverrideMode == FakeOverrideMode.NONE) return emptyList()
         val superTypesCallableNames = klass.collectCallableNamesFromSupertypes(session)
         val useSiteMemberScope = klass.unsubstitutedScope(session, scopeSession)
         for (name in superTypesCallableNames) {
             if (name in processedCallableNames) continue
+            val isLocal = klass !is FirRegularClass || klass.isLocal
+            useSiteMemberScope.processPropertiesByName(name) { propertySymbol ->
+                if (propertySymbol is FirPropertySymbol) {
+                    processedCallableNames += name
+                    val originalProperty = propertySymbol.fir
+                    val origin = IrDeclarationOrigin.FAKE_OVERRIDE
+                    val baseSymbol = propertySymbol.deepestOverriddenSymbol() as FirPropertySymbol
+                    if (propertySymbol.isFakeOverride &&
+                        (propertySymbol.callableId.classId == klass.symbol.classId || fakeOverrideMode == FakeOverrideMode.SUBSTITUTION)
+                    ) {
+                        // Substitution case
+                        // NB: see comment above about substituted function' parent
+                        val irProperty = declarationStorage.getCachedIrProperty(originalProperty)?.takeIf { it.parent == this }
+                            ?: declarationStorage.createIrProperty(
+                                originalProperty, irParent = this,
+                                thisReceiverOwner = declarationStorage.findIrParent(baseSymbol.fir) as? IrClass,
+                                origin = origin,
+                                isLocal = isLocal
+                            )
+                        irProperty.parent = this
+                        basePropertySymbols[irProperty] = baseSymbol
+                        properties += irProperty
+                    } else if (fakeOverrideMode != FakeOverrideMode.SUBSTITUTION && originalProperty.allowsToHaveFakeOverrideIn(klass)) {
+                        // Trivial fake override case
+                        val fakeOverrideSymbol = FirClassSubstitutionScope.createFakeOverrideProperty(
+                            session, originalProperty, baseSymbol,
+                            derivedClassId = klass.symbol.classId,
+                            isExpect = (klass as? FirRegularClass)?.isExpect == true
+                        )
+                        val fakeOverrideProperty = fakeOverrideSymbol.fir
+
+                        classifierStorage.preCacheTypeParameters(originalProperty)
+                        val irProperty = declarationStorage.createIrProperty(
+                            fakeOverrideProperty, irParent = this,
+                            thisReceiverOwner = declarationStorage.findIrParent(originalProperty) as? IrClass,
+                            origin = origin,
+                            isLocal = isLocal
+                        )
+                        if (irProperty.backingField?.type?.containsErrorType() == true ||
+                            irProperty.getter?.returnType?.containsErrorType() == true
+                        ) {
+                            return@processPropertiesByName
+                        }
+                        irProperty.parent = this
+                        basePropertySymbols[irProperty] = baseSymbol
+                        properties += irProperty
+                    }
+                }
+            }
+        }
+        for (name in superTypesCallableNames) {
+            if (name in processedCallableNames) continue
             processedCallableNames += name
             val isLocal = klass !is FirRegularClass || klass.isLocal
             useSiteMemberScope.processFunctionsByName(name) { functionSymbol ->
-                if (functionSymbol is FirNamedFunctionSymbol) {
+                if (functionSymbol is FirNamedFunctionSymbol && !functionSymbol.clashesWithProperty(properties)) {
                     val originalFunction = functionSymbol.fir
                     if (originalFunction.isStatic && originalFunction.name in Fir2IrDeclarationStorage.ENUM_SYNTHETIC_NAMES) {
                         return@processFunctionsByName
@@ -103,7 +165,7 @@ class FakeOverrideGenerator(
                         // but fake override itself uses parent from its containing (derived) class
                         irFunction.parent = this
                         baseFunctionSymbols[irFunction] = baseSymbol
-                        result += irFunction
+                        functions += irFunction
                     } else if (fakeOverrideMode != FakeOverrideMode.SUBSTITUTION && originalFunction.allowsToHaveFakeOverrideIn(klass)) {
                         // Trivial fake override case
                         val fakeOverrideSymbol = FirClassSubstitutionScope.createFakeOverrideFunction(
@@ -126,59 +188,12 @@ class FakeOverrideGenerator(
                         }
                         irFunction.parent = this
                         baseFunctionSymbols[irFunction] = baseSymbol
-                        result += irFunction
-                    }
-                }
-            }
-            useSiteMemberScope.processPropertiesByName(name) { propertySymbol ->
-                if (propertySymbol is FirPropertySymbol) {
-                    val originalProperty = propertySymbol.fir
-                    val origin = IrDeclarationOrigin.FAKE_OVERRIDE
-                    val baseSymbol = propertySymbol.deepestOverriddenSymbol() as FirPropertySymbol
-                    if (propertySymbol.isFakeOverride &&
-                        (propertySymbol.callableId.classId == klass.symbol.classId || fakeOverrideMode == FakeOverrideMode.SUBSTITUTION)
-                    ) {
-                        // Substitution case
-                        // NB: see comment above about substituted function' parent
-                        val irProperty = declarationStorage.getCachedIrProperty(originalProperty)?.takeIf { it.parent == this }
-                            ?: declarationStorage.createIrProperty(
-                                originalProperty, irParent = this,
-                                thisReceiverOwner = declarationStorage.findIrParent(baseSymbol.fir) as? IrClass,
-                                origin = origin,
-                                isLocal = isLocal
-                            )
-                        irProperty.parent = this
-                        basePropertySymbols[irProperty] = baseSymbol
-                        result += irProperty
-                    } else if (fakeOverrideMode != FakeOverrideMode.SUBSTITUTION && originalProperty.allowsToHaveFakeOverrideIn(klass)) {
-                        // Trivial fake override case
-                        val fakeOverrideSymbol = FirClassSubstitutionScope.createFakeOverrideProperty(
-                            session, originalProperty, baseSymbol,
-                            derivedClassId = klass.symbol.classId,
-                            isExpect = (klass as? FirRegularClass)?.isExpect == true
-                        )
-                        val fakeOverrideProperty = fakeOverrideSymbol.fir
-
-                        classifierStorage.preCacheTypeParameters(originalProperty)
-                        val irProperty = declarationStorage.createIrProperty(
-                            fakeOverrideProperty, irParent = this,
-                            thisReceiverOwner = declarationStorage.findIrParent(originalProperty) as? IrClass,
-                            origin = origin,
-                            isLocal = isLocal
-                        )
-                        if (irProperty.backingField?.type?.containsErrorType() == true ||
-                            irProperty.getter?.returnType?.containsErrorType() == true
-                        ) {
-                            return@processPropertiesByName
-                        }
-                        irProperty.parent = this
-                        basePropertySymbols[irProperty] = baseSymbol
-                        result += irProperty
+                        functions += irFunction
                     }
                 }
             }
         }
-        return result
+        return functions + properties
     }
 
     fun bindOverriddenSymbols(declarations: List<IrDeclaration>) {
