@@ -60,6 +60,7 @@ import org.jetbrains.kotlin.fir.resolve.inference.isSuspendFunctionType
 @OptIn(ObsoleteDescriptorBasedAPI::class)
 class Fir2IrDeclarationStorage(
     private val components: Fir2IrComponents,
+    private val visitor: Fir2IrVisitor,
     private val moduleDescriptor: FirModuleDescriptor
 ) : Fir2IrComponents by components {
 
@@ -792,6 +793,11 @@ class Fir2IrDeclarationStorage(
                     isExternal = false,
                     isStatic = field.isStatic
                 ).apply {
+                    field.initializer?.let {
+                        val expression = visitor.convertToIrExpression(it)
+                        expression.type = type
+                        initializer = irFactory.createExpressionBody(expression)
+                    }
                     descriptor.bind(this)
                     fieldCache[field] = this
                 }
