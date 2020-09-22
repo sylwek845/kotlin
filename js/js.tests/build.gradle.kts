@@ -176,6 +176,7 @@ projectTest(parallel = true) {
     distribution {
         enabled.set(true)
         maxRemoteExecutors.set(40)
+        requirements.set(setOf("os=${OperatingSystem.current().familyName}"))
     }
 }
 
