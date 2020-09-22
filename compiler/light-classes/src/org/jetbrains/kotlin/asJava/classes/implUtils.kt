@@ -50,7 +50,7 @@ fun PsiReferenceList.addSuperTypeEntry(
     }
 }
 
-internal fun KtClassOrObject.getExternalDependencies(): List<ModificationTracker> {
+fun KtClassOrObject.getExternalDependencies(): List<ModificationTracker> {
     return with(KotlinModificationTrackerService.getInstance(project)) {
         if (!safeIsLocal()) return listOf(outOfBlockModificationTracker)
         else when (val file = containingFile) {

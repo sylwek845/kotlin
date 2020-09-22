@@ -17,7 +17,7 @@ import org.jetbrains.kotlin.name.FqName
 
 private data class FacadeCacheKey(val fqName: FqName, val searchScope: GlobalSearchScope)
 
-private data class ValueWrapper(val value: KtLightClassForFacade?) {
+private data class ValueWrapper(val value: KtLightClass?) {
     companion object {
         val Null = ValueWrapper(null)
     }
@@ -42,7 +42,7 @@ class FacadeCache(private val project: Project) {
         }, false
     )
 
-    operator fun get(qualifiedName: FqName, searchScope: GlobalSearchScope): KtLightClassForFacade? {
+    operator fun get(qualifiedName: FqName, searchScope: GlobalSearchScope): KtLightClass? {
         synchronized(cachedValue) {
             return cachedValue.value.cache.get(FacadeCacheKey(qualifiedName, searchScope)).value
         }

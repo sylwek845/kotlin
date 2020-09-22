@@ -112,7 +112,7 @@ class CliKotlinAsJavaSupport(
     override fun getLightClass(classOrObject: KtClassOrObject): KtLightClass? =
         KtLightClassForSourceDeclaration.create(classOrObject)
 
-    override fun getLightClassForScript(script: KtScript): KtLightClassForScript? =
+    override fun getLightClassForScript(script: KtScript): KtLightClass? =
         KtLightClassForScript.create(script)
 
     override fun findClassOrObjectDeclarations(fqName: FqName, searchScope: GlobalSearchScope): Collection<KtClassOrObject> {

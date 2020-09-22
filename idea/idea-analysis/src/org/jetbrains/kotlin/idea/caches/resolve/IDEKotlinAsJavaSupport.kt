@@ -157,7 +157,7 @@ class IDEKotlinAsJavaSupport(private val project: Project) : KotlinAsJavaSupport
         return null
     }
 
-    override fun getLightClassForScript(script: KtScript): KtLightClassForScript? {
+    override fun getLightClassForScript(script: KtScript): KtLightClass? {
         if (!script.isValid) {
             return null
         }

@@ -256,7 +256,7 @@ open class KtLightClassForFacade constructor(
 
     companion object {
 
-        fun createForFacadeNoCache(fqName: FqName, searchScope: GlobalSearchScope, project: Project): KtLightClassForFacade? {
+        fun createForFacadeNoCache(fqName: FqName, searchScope: GlobalSearchScope, project: Project): KtLightClass? {
 
             val sources = KotlinAsJavaSupport.getInstance(project).findFilesForFacade(fqName, searchScope)
                 .filterNot { it.isCompiled }
@@ -280,7 +280,7 @@ open class KtLightClassForFacade constructor(
             manager: PsiManager,
             facadeClassFqName: FqName,
             searchScope: GlobalSearchScope
-        ): KtLightClassForFacade? {
+        ): KtLightClass? {
             return FacadeCache.getInstance(manager.project)[facadeClassFqName, searchScope]
         }
 

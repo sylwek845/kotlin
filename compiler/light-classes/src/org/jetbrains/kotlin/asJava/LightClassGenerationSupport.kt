@@ -59,12 +59,12 @@ abstract class LightClassGenerationSupport {
 
     abstract val useUltraLightClasses: Boolean
 
-    fun createUltraLightClassForFacade(
+    open fun createUltraLightClassForFacade(
         manager: PsiManager,
         facadeClassFqName: FqName,
         lightClassDataCache: CachedValue<LightClassDataHolder.ForFacade>,
         files: Collection<KtFile>,
-    ): KtUltraLightClassForFacade? {
+    ): KtLightClass? {
 
         if (!useUltraLightClasses) return null
 
@@ -83,7 +83,7 @@ abstract class LightClassGenerationSupport {
         )
     }
 
-    fun createUltraLightClass(element: KtClassOrObject): KtUltraLightClass? {
+    open fun createUltraLightClass(element: KtClassOrObject): KtLightClass? {
 
         if (!useUltraLightClasses) return null
 
@@ -107,7 +107,7 @@ abstract class LightClassGenerationSupport {
         }
     }
 
-    fun createUltraLightClassForScript(script: KtScript): KtUltraLightClassForScript? =
+    open fun createUltraLightClassForScript(script: KtScript): KtLightClass? =
         if (useUltraLightClasses) KtUltraLightClassForScript(script, support = getUltraLightClassSupport(script)) else null
 
     companion object {

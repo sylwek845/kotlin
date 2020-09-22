@@ -334,7 +334,7 @@ abstract class KtLightClassForSourceDeclaration(
             FINAL_KEYWORD to PsiModifier.FINAL
         )
 
-        fun create(classOrObject: KtClassOrObject): KtLightClassForSourceDeclaration? =
+        fun create(classOrObject: KtClassOrObject): KtLightClass? =
             CachedValuesManager.getCachedValue(classOrObject) {
                 CachedValueProvider.Result
                     .create(
@@ -343,7 +343,7 @@ abstract class KtLightClassForSourceDeclaration(
                     )
             }
 
-        fun createNoCache(classOrObject: KtClassOrObject, forceUsingOldLightClasses: Boolean): KtLightClassForSourceDeclaration? {
+        fun createNoCache(classOrObject: KtClassOrObject, forceUsingOldLightClasses: Boolean): KtLightClass? {
             val containingFile = classOrObject.containingFile
             if (containingFile is KtCodeFragment) {
                 // Avoid building light classes for code fragments

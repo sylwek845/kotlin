@@ -190,7 +190,7 @@ open class KtLightClassForScript(val script: KtScript) : KtLazyLightClass(script
 
         private val JAVA_API_STUB_FOR_SCRIPT = Key.create<CachedValue<LightClassDataHolder.ForScript>>("JAVA_API_STUB_FOR_SCRIPT")
 
-        fun create(script: KtScript): KtLightClassForScript? =
+        fun create(script: KtScript): KtLightClass? =
             CachedValuesManager.getCachedValue(script) {
                 CachedValueProvider.Result
                     .create(
@@ -199,7 +199,7 @@ open class KtLightClassForScript(val script: KtScript) : KtLazyLightClass(script
                     )
             }
 
-        fun createNoCache(script: KtScript, forceUsingOldLightClasses: Boolean): KtLightClassForScript? {
+        fun createNoCache(script: KtScript, forceUsingOldLightClasses: Boolean): KtLightClass? {
             val containingFile = script.containingFile
             if (containingFile is KtCodeFragment) {
                 // Avoid building light classes for code fragments
