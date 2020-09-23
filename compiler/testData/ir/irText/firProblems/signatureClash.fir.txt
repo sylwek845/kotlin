@@ -49,9 +49,61 @@ FILE fqName:<root> fileName:/signatureClash.kt
       overridden:
         public open fun toString (): kotlin.String declared in kotlin.Any
       $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+  CLASS INTERFACE name:DescriptorWithAccessor modality:ABSTRACT visibility:public superTypes:[kotlin.Any]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.DescriptorWithAccessor
+    PROPERTY name:setter visibility:public modality:ABSTRACT [val]
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-setter> visibility:public modality:ABSTRACT <> ($this:<root>.DescriptorWithAccessor) returnType:kotlin.String
+        correspondingProperty: PROPERTY name:setter visibility:public modality:ABSTRACT [val]
+        $this: VALUE_PARAMETER name:<this> type:<root>.DescriptorWithAccessor
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:kotlin.Any, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [operator] declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+  CLASS CLASS name:WrappedPropertyDescriptor modality:FINAL visibility:public superTypes:[<root>.PropertyDescriptor]
+    $this: VALUE_PARAMETER INSTANCE_RECEIVER name:<this> type:<root>.WrappedPropertyDescriptor
+    CONSTRUCTOR visibility:public <> () returnType:<root>.WrappedPropertyDescriptor [primary]
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () [primary] declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:WrappedPropertyDescriptor modality:FINAL visibility:public superTypes:[<root>.PropertyDescriptor]'
+    PROPERTY name:setter visibility:public modality:FINAL [val]
+      FUN name:<get-setter> visibility:public modality:FINAL <> ($this:<root>.WrappedPropertyDescriptor) returnType:kotlin.String
+        correspondingProperty: PROPERTY name:setter visibility:public modality:FINAL [val]
+        $this: VALUE_PARAMETER name:<this> type:<root>.WrappedPropertyDescriptor
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-setter> (): kotlin.String declared in <root>.WrappedPropertyDescriptor'
+            CONST String type=kotlin.String value="K"
+    FUN FAKE_OVERRIDE name:getSetter visibility:public modality:ABSTRACT <> ($this:<root>.PropertyDescriptor) returnType:kotlin.String [fake_override]
+      overridden:
+        public abstract fun getSetter (): kotlin.String declared in <root>.PropertyDescriptor
+      $this: VALUE_PARAMETER name:<this> type:<root>.PropertyDescriptor
+    FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN <> ($this:kotlin.Any, other:kotlin.Any?) returnType:kotlin.Boolean [fake_override,operator]
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean [operator] declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+      VALUE_PARAMETER name:other index:0 type:kotlin.Any?
+    FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.Int [fake_override]
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
+    FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN <> ($this:kotlin.Any) returnType:kotlin.String [fake_override]
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+      $this: VALUE_PARAMETER name:<this> type:kotlin.Any
   FUN name:box visibility:public modality:FINAL <> () returnType:kotlin.String
     BLOCK_BODY
       RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in <root>'
-        CALL 'public abstract fun <get-annotations> (): kotlin.String declared in <root>.Annotated' type=kotlin.String origin=GET_PROPERTY
-          $this: CONSTRUCTOR_CALL 'public constructor <init> (annotations: kotlin.String) [primary] declared in <root>.SomeDeclaration' type=<root>.SomeDeclaration origin=null
-            annotations: CONST String type=kotlin.String value="OK"
+        CALL 'public final fun plus (other: kotlin.Any?): kotlin.String [operator] declared in kotlin.String' type=kotlin.String origin=PLUS
+          $this: CALL 'public abstract fun <get-annotations> (): kotlin.String declared in <root>.Annotated' type=kotlin.String origin=GET_PROPERTY
+            $this: CONSTRUCTOR_CALL 'public constructor <init> (annotations: kotlin.String) [primary] declared in <root>.SomeDeclaration' type=<root>.SomeDeclaration origin=null
+              annotations: CONST String type=kotlin.String value="O"
+          other: CALL 'public final fun <get-setter> (): kotlin.String declared in <root>.WrappedPropertyDescriptor' type=kotlin.String origin=GET_PROPERTY
+            $this: CONSTRUCTOR_CALL 'public constructor <init> () [primary] declared in <root>.WrappedPropertyDescriptor' type=<root>.WrappedPropertyDescriptor origin=null
