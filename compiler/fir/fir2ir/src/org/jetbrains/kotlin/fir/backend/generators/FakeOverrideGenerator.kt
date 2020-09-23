@@ -71,7 +71,11 @@ class FakeOverrideGenerator(
         declarations += getFakeOverrides(klass, processedCallableNames)
     }
 
-    fun IrClass.getFakeOverrides(klass: FirClass<*>, processedCallableNames: MutableSet<Name>): List<IrDeclaration> {
+    fun IrClass.getFakeOverrides(
+        klass: FirClass<*>,
+        processedCallableNames: MutableSet<Name>,
+        otherDeclarations: List<IrDeclaration> = this.declarations
+    ): List<IrDeclaration> {
         val functions = mutableListOf<IrSimpleFunction>()
         val properties = mutableListOf<IrProperty>()
         if (fakeOverrideMode == FakeOverrideMode.NONE) return emptyList()
@@ -129,12 +133,13 @@ class FakeOverrideGenerator(
                 }
             }
         }
+        val allProperties = properties + otherDeclarations.filterIsInstance<IrProperty>()
         for (name in superTypesCallableNames) {
             if (name in processedCallableNames) continue
             processedCallableNames += name
             val isLocal = klass !is FirRegularClass || klass.isLocal
             useSiteMemberScope.processFunctionsByName(name) { functionSymbol ->
-                if (functionSymbol is FirNamedFunctionSymbol && !functionSymbol.clashesWithProperty(properties)) {
+                if (functionSymbol is FirNamedFunctionSymbol && !functionSymbol.clashesWithProperty(allProperties)) {
                     val originalFunction = functionSymbol.fir
                     if (originalFunction.isStatic && originalFunction.name in Fir2IrDeclarationStorage.ENUM_SYNTHETIC_NAMES) {
                         return@processFunctionsByName
