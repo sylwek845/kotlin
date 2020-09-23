@@ -65,6 +65,10 @@ fun Test.includeMppAndAndroid(include: Boolean) {
     }
 }
 
+fun Test.includeNative() {
+    filter.includeTestsMatching("org.jetbrains.kotlin.gradle.native.*")
+}
+
 fun Test.advanceGradleVersion() {
     val gradleVersionForTests = "6.3"
     systemProperty("kotlin.gradle.version.for.tests", gradleVersionForTests)
@@ -80,6 +84,14 @@ projectTest("testAdvanceGradleVersion", shortenTempRootName = shortenTempRootNam
     includeMppAndAndroid(false)
 }
 
+projectTest("testNative", shortenTempRootName = shortenTempRootName) {
+    includeNative()
+}
+
+projectTest("testNativeAdvanceGradleVersion", shortenTempRootName = shortenTempRootName) {
+    advanceGradleVersion()
+    includeNative()
+}
 
 if (isTeamcityBuild) {
     projectTest("testMppAndAndroid", shortenTempRootName = shortenTempRootName) {
