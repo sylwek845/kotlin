@@ -1742,6 +1742,11 @@ public class Fir2IrTextTestGenerated extends AbstractFir2IrTextTest {
             runTest("compiler/testData/ir/irText/firProblems/FirBuilder.kt");
         }
 
+        @TestMetadata("jvmFieldAndAccessor.kt")
+        public void testJvmFieldAndAccessor() throws Exception {
+            runTest("compiler/testData/ir/irText/firProblems/jvmFieldAndAccessor.kt");
+        }
+
         @TestMetadata("putIfAbsent.kt")
         public void testPutIfAbsent() throws Exception {
             runTest("compiler/testData/ir/irText/firProblems/putIfAbsent.kt");
