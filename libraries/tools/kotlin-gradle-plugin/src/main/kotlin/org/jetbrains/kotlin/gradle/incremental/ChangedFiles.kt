@@ -6,18 +6,19 @@
 package org.jetbrains.kotlin.gradle.incremental
 
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs
+import org.jetbrains.kotlin.incremental.ChangedFiles
 import java.io.File
 import java.io.Serializable
 import java.util.*
 
-sealed class ChangedFiles : Serializable {
-    class Known(val modified: List<File>, val removed: List<File>) : ChangedFiles()
-    class Unknown : ChangedFiles()
-
-    companion object {
-        const val serialVersionUID: Long = 0
-    }
-}
+//sealed class ChangedFiles : Serializable {
+//    class Known(val modified: List<File>, val removed: List<File>) : ChangedFiles()
+//    class Unknown : ChangedFiles()
+//
+//    companion object {
+//        const val serialVersionUID: Long = 0
+//    }
+//}
 
 
 internal fun ChangedFiles(taskInputs: IncrementalTaskInputs): ChangedFiles {
