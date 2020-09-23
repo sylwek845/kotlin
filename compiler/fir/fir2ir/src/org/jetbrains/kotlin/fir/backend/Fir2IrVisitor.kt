@@ -993,7 +993,7 @@ class Fir2IrVisitor(
                 }
             }
             is FirClassReferenceExpression -> {
-                argument.classTypeRef.coneTypeSafe<ConeClassLikeType>().toIrClassSymbol()
+                (argument.classTypeRef.coneType.lowerBoundIfFlexible() as? ConeClassLikeType)?.toIrClassSymbol()
             }
             else -> null
         }
