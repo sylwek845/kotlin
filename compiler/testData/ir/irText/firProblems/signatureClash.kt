@@ -26,6 +26,12 @@ public class DeclarationImpl extends AnnotationOwner implements Declaration {
     }
 }
 
+// FILE: PropertyDescriptor.java
+
+public interface PropertyDescriptor extends DescriptorWithAccessor {
+    String getSetter();
+}
+
 // FILE: signatureClash.kt
 
 interface Annotated {
@@ -34,6 +40,14 @@ interface Annotated {
 
 class SomeDeclaration(annotations: String) : DeclarationImpl(annotations)
 
+interface DescriptorWithAccessor {
+    val setter: String
+}
+
+class WrappedPropertyDescriptor : PropertyDescriptor {
+    override val setter: String get() = "K"
+}
+
 fun box(): String {
-    return SomeDeclaration("OK").annotations
+    return SomeDeclaration("O").annotations + WrappedPropertyDescriptor().setter
 }
