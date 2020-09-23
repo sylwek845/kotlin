@@ -171,6 +171,7 @@ internal object MapArguments : ResolutionStage() {
 
         val mapping = mapArguments(callInfo.arguments, function)
         candidate.argumentMapping = mapping.toArgumentToParameterMapping()
+        candidate.oldToNewArgumentMapping = mapping.oldToNewArgumentMap
 
         mapping.diagnostics.forEach(sink::reportDiagnostic)
         sink.yieldIfNeed()
