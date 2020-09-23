@@ -24,7 +24,9 @@ import org.jetbrains.org.objectweb.asm.commons.InstructionAdapter
 abstract class PromisedValue(val codegen: ExpressionCodegen, val type: Type, val irType: IrType) {
     // If this value is immaterial, construct an object on the top of the stack. This
     // must always be done before generating other values or emitting raw bytecode.
-    open fun materializeAt(target: Type, irTarget: IrType) {
+    open fun materializeAt(target: Type, irTarget: IrType) = coerceOnStack(target, irTarget)
+
+    protected fun coerceOnStack(target: Type, irTarget: IrType) {
         val erasedSourceType = irType.eraseTypeParameters()
         val erasedTargetType = irTarget.eraseTypeParameters()
         val isFromTypeInlineClass = erasedSourceType.classOrNull!!.owner.isInline
@@ -78,8 +80,9 @@ class MaterialValue(codegen: ExpressionCodegen, type: Type, irType: IrType) : Pr
 
 // A value that can be branched on. JVM has certain branching instructions which can be used
 // to optimize these.
-abstract class BooleanValue(codegen: ExpressionCodegen) :
-    PromisedValue(codegen, Type.BOOLEAN_TYPE, codegen.context.irBuiltIns.booleanType) {
+abstract class BooleanValue(codegen: ExpressionCodegen, type: Type, irType: IrType) : PromisedValue(codegen, type, irType) {
+    constructor(codegen: ExpressionCodegen) : this(codegen, Type.BOOLEAN_TYPE, codegen.context.irBuiltIns.booleanType)
+
     abstract fun jumpIfFalse(target: Label)
     abstract fun jumpIfTrue(target: Label)
 
@@ -98,17 +101,60 @@ abstract class BooleanValue(codegen: ExpressionCodegen) :
     }
 }
 
-class BooleanConstant(codegen: ExpressionCodegen, val value: Boolean) : BooleanValue(codegen) {
-    override fun jumpIfFalse(target: Label) = if (value) Unit else mv.goTo(target)
-    override fun jumpIfTrue(target: Label) = if (value) mv.goTo(target) else Unit
+class ConstantValue(codegen: ExpressionCodegen, val value: Any?, irType: IrType) : BooleanValue(codegen, value.asmType(), irType) {
     override fun materializeAt(target: Type, irTarget: IrType) {
-        mv.iconst(if (value) 1 else 0)
-        if (Type.BOOLEAN_TYPE != target) {
-            StackValue.coerce(Type.BOOLEAN_TYPE, target, mv)
+        when (value) {
+            is Boolean -> mv.iconst(if (value) 1 else 0)
+            is Char -> mv.iconst(value.toInt())
+            is Long -> mv.lconst(value)
+            is Float -> mv.fconst(value)
+            is Double -> mv.dconst(value)
+            is Number -> mv.iconst(value.toInt())
+            else -> mv.aconst(value)
+        }
+        // `null` is of any reference type.
+        if (value != null || AsmUtil.isPrimitive(target)) {
+            coerceOnStack(target, irTarget)
         }
     }
 
-    override fun discard() {}
+    override fun discard() {
+        // Add something for the line number to be attached to.
+        mv.nop()
+    }
+
+    override fun jumpIfFalse(target: Label) = if (isDefaultValueForType(type, value)) mv.goTo(target) else mv.nop()
+    override fun jumpIfTrue(target: Label) = if (!isDefaultValueForType(type, value)) mv.goTo(target) else mv.nop()
+
+    companion object {
+        private fun Any?.asmType(): Type = when (this) {
+            is Boolean -> Type.BOOLEAN_TYPE
+            is Byte -> Type.BYTE_TYPE
+            is Char -> Type.CHAR_TYPE
+            is Long -> Type.LONG_TYPE
+            is Short -> Type.SHORT_TYPE
+            is Float -> Type.FLOAT_TYPE
+            is Double -> Type.DOUBLE_TYPE
+            is Number -> Type.INT_TYPE
+            is String -> AsmTypes.JAVA_STRING_TYPE
+            else -> AsmTypes.OBJECT_TYPE
+        }
+
+        /**
+         * Returns true if the given constant value is the JVM's default value for the given type.
+         * See: https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.3
+         */
+        fun isDefaultValueForType(type: Type, value: Any?): Boolean =
+            when (type) {
+                Type.BOOLEAN_TYPE -> value is Boolean && !value
+                Type.CHAR_TYPE -> value is Char && value.toInt() == 0
+                Type.BYTE_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE -> value is Number && value.toLong() == 0L
+                // Must use `equals` for these two to differentiate between +0.0 and -0.0:
+                Type.FLOAT_TYPE -> value is Number && value.toFloat().equals(0.0f)
+                Type.DOUBLE_TYPE -> value is Number && value.toDouble().equals(0.0)
+                else -> !AsmUtil.isPrimitive(type) && value == null
+            }
+    }
 }
 
 fun PromisedValue.coerceToBoolean(): BooleanValue =
@@ -160,12 +206,3 @@ val IrType.unboxed: IrType
 // A Non-materialized value of Unit type that is only materialized through coercion.
 val ExpressionCodegen.unitValue: PromisedValue
     get() = MaterialValue(this, Type.VOID_TYPE, context.irBuiltIns.unitType)
-
-val ExpressionCodegen.nullConstant: PromisedValue
-    get() = object : PromisedValue(this, AsmTypes.OBJECT_TYPE, context.irBuiltIns.nothingNType) {
-        override fun materializeAt(target: Type, irTarget: IrType) {
-            mv.aconst(null)
-        }
-
-        override fun discard() {}
-    }

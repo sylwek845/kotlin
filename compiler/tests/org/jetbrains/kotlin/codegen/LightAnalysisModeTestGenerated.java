@@ -3135,6 +3135,11 @@ public class LightAnalysisModeTestGenerated extends AbstractLightAnalysisModeTes
     @TestDataPath("$PROJECT_ROOT")
     @RunWith(JUnit3RunnerWithInners.class)
     public static class Casts extends AbstractLightAnalysisModeTest {
+        @TestMetadata("intAsJavaLong.kt")
+        public void ignoreIntAsJavaLong() throws Exception {
+            runTest("compiler/testData/codegen/box/casts/intAsJavaLong.kt");
+        }
+
         private void runTest(String testDataFilePath) throws Exception {
             KotlinTestUtils.runTest(this::doTest, TargetBackend.JVM, testDataFilePath);
         }

@@ -21,7 +21,6 @@ import org.jetbrains.kotlin.ir.expressions.IrFunctionAccessExpression
 import org.jetbrains.kotlin.ir.expressions.IrStatementOrigin
 import org.jetbrains.kotlin.ir.types.classOrNull
 import org.jetbrains.kotlin.ir.types.isNullable
-import org.jetbrains.kotlin.ir.types.toKotlinType
 import org.jetbrains.kotlin.ir.util.isEnumClass
 import org.jetbrains.kotlin.ir.util.isEnumEntry
 import org.jetbrains.kotlin.ir.util.isIntegerConst
@@ -76,7 +75,7 @@ class Equals(val operator: IElementType) : IntrinsicMethod() {
                 BooleanNullCheck(value)
             else {
                 value.discard()
-                BooleanConstant(codegen, false)
+                ConstantValue(codegen, false, expression.type)
             }
         }
 

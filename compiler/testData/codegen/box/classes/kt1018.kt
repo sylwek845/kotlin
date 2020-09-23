@@ -1,5 +1,5 @@
-// IGNORE_BACKEND_FIR: JVM_IR
-// The IR prduced by FIR implicitly casts `null` of type `Nothing?` to type `Int` instead of `Int?` in `getColumnCount`.
+// NOTE: FIR infers `COLUMN_TITLES?.size` to have type `Int` producing a `(null as Number).intValue()`
+//       in the `COLUMN_TITLES == null` case (which is never executed).
 
 public class StockMarketTableModel() {
 

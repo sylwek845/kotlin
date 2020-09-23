@@ -3193,6 +3193,11 @@ public class BlackBoxCodegenTestGenerated extends AbstractBlackBoxCodegenTest {
             runTest("compiler/testData/codegen/box/casts/dontCreateInconsistentTypeDuringStarProjectionSubstitution.kt");
         }
 
+        @TestMetadata("intAsJavaLong.kt")
+        public void testIntAsJavaLong() throws Exception {
+            runTest("compiler/testData/codegen/box/casts/intAsJavaLong.kt");
+        }
+
         @TestMetadata("intersectionTypeMultipleBounds.kt")
         public void testIntersectionTypeMultipleBounds() throws Exception {
             runTest("compiler/testData/codegen/box/casts/intersectionTypeMultipleBounds.kt");

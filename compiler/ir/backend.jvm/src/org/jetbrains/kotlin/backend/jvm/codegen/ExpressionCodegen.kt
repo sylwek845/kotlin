@@ -626,24 +626,9 @@ class ExpressionCodegen(
         val inClassInit = irFunction.origin == JvmLoweredDeclarationOrigin.CLASS_STATIC_INITIALIZER
         val isFieldInitializer = expression.origin == IrStatementOrigin.INITIALIZE_FIELD
         val skip = (irFunction is IrConstructor || inClassInit) && isFieldInitializer && expressionValue is IrConst<*> &&
-                isDefaultValueForType(expression.symbol.owner.type.asmType, expressionValue.value)
+                ConstantValue.isDefaultValueForType(expression.symbol.owner.type.asmType, expressionValue.value)
         return if (skip) unitValue else super.visitSetField(expression, data)
     }
-
-    /**
-     * Returns true if the given constant value is the JVM's default value for the given type.
-     * See: https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.3
-     */
-    private fun isDefaultValueForType(type: Type, value: Any?): Boolean =
-        when (type) {
-            Type.BOOLEAN_TYPE -> value is Boolean && !value
-            Type.CHAR_TYPE -> value is Char && value.toInt() == 0
-            Type.BYTE_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE -> value is Number && value.toLong() == 0L
-            // Must use `equals` for these two to differentiate between +0.0 and -0.0:
-            Type.FLOAT_TYPE -> value is Number && value.toFloat().equals(0.0f)
-            Type.DOUBLE_TYPE -> value is Number && value.toDouble().equals(0.0)
-            else -> !isPrimitive(type) && value == null
-        }
 
     private fun findLocalIndex(irSymbol: IrSymbol): Int {
         val index = frameMap.getIndex(irSymbol)
@@ -731,20 +716,7 @@ class ExpressionCodegen(
 
     override fun <T> visitConst(expression: IrConst<T>, data: BlockInfo): PromisedValue {
         expression.markLineNumber(startOffset = true)
-        when (val value = expression.value) {
-            is Boolean -> {
-                // BooleanConstants _may not_ be materialized, so we ensure an instruction for the line number.
-                mv.nop()
-                return BooleanConstant(this, value)
-            }
-            is Char -> mv.iconst(value.toInt())
-            is Long -> mv.lconst(value)
-            is Float -> mv.fconst(value)
-            is Double -> mv.dconst(value)
-            is Number -> mv.iconst(value.toInt())
-            else -> if (expression.kind == IrConstKind.Null) return nullConstant else mv.aconst(value)
-        }
-        return expression.onStack
+        return ConstantValue(this, expression.value, expression.type)
     }
 
     override fun visitExpressionBody(body: IrExpressionBody, data: BlockInfo) =
