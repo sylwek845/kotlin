@@ -17,5 +17,5 @@ class WrappedPropertyDescriptor : PropertyDescriptor {
 fun test() {
     val descriptor = WrappedPropertyDescriptor()
     val res1 = descriptor.setter
-    val res2 = descriptor.getSetter() // Should be error
+    val res2 = descriptor.<!UNRESOLVED_REFERENCE!>getSetter<!>() // Should be error
 }

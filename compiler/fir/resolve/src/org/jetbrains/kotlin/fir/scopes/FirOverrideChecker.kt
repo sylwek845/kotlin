@@ -19,4 +19,9 @@ interface FirOverrideChecker {
         overrideCandidate: FirCallableMemberDeclaration<*>, // NB: in Java it can be a function which overrides accessor
         baseDeclaration: FirProperty
     ): Boolean
+
+    fun isOverriddenSetter(
+        overrideCandidate: FirProperty,
+        baseDeclaration: FirSimpleFunction
+    ): Boolean = false
 }

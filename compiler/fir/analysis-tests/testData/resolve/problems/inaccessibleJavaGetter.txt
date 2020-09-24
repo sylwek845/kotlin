@@ -18,5 +18,5 @@ FILE: test.kt
     public final fun test(): R|kotlin/Unit| {
         lval descriptor: R|WrappedPropertyDescriptor| = R|/WrappedPropertyDescriptor.WrappedPropertyDescriptor|()
         lval res1: R|kotlin/String| = R|<local>/descriptor|.R|/WrappedPropertyDescriptor.setter|
-        lval res2: R|kotlin/String| = R|<local>/descriptor|.R|/PropertyDescriptor.getSetter|()
+        lval res2: R|ERROR CLASS: Unresolved name: getSetter| = R|<local>/descriptor|.<Unresolved name: getSetter>#()
     }

@@ -35,6 +35,20 @@ abstract class AbstractFirOverrideScope(
         return overrideChecker.isOverriddenProperty(overrideCandidate, baseDeclaration)
     }
 
+    private fun javaAccessorForProperty(
+        overrideCandidate: FirCallableMemberDeclaration<*>,
+        baseDeclaration: FirCallableMemberDeclaration<*>
+    ): Boolean {
+        if (baseDeclaration !is FirSimpleFunction || overrideCandidate !is FirProperty) return false
+        if (baseDeclaration.origin != FirDeclarationOrigin.Enhancement) return false
+        if (baseDeclaration.name.identifier.startsWith("set")) {
+            if (baseDeclaration.valueParameters.size != 1) return false
+            return overrideChecker.isOverriddenSetter(overrideCandidate, baseDeclaration)
+        } else {
+            return baseDeclaration.valueParameters.isEmpty()
+        }
+    }
+
     protected fun similarFunctionsOrBothProperties(
         overrideCandidate: FirCallableMemberDeclaration<*>,
         baseDeclaration: FirCallableMemberDeclaration<*>
@@ -59,7 +73,12 @@ abstract class AbstractFirOverrideScope(
         val baseDeclaration = (this as AbstractFirBasedSymbol<*>).fir as FirCallableMemberDeclaration<*>
         val override = overrideCandidates.firstOrNull {
             val overrideCandidate = (it as AbstractFirBasedSymbol<*>).fir as FirCallableMemberDeclaration<*>
-            baseDeclaration.modality != Modality.FINAL && similarFunctionsOrBothProperties(overrideCandidate, baseDeclaration)
+            when {
+                baseDeclaration.modality == Modality.FINAL -> false
+                similarFunctionsOrBothProperties(overrideCandidate, baseDeclaration) -> true
+                javaAccessorForProperty(overrideCandidate, baseDeclaration) -> true
+                else -> false
+            }
         } // TODO: two or more overrides for one fun?
         overrideByBase[this] = override
         return override

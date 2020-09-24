@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.fir.scopes.impl
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.declarations.FirFunction
 import org.jetbrains.kotlin.fir.declarations.FirSimpleFunction
+import org.jetbrains.kotlin.fir.resolve.calls.syntheticNamesProvider
 import org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutor
 import org.jetbrains.kotlin.fir.scopes.*
 import org.jetbrains.kotlin.fir.symbols.impl.*
@@ -35,7 +36,7 @@ abstract class AbstractFirUseSiteMemberScope(
     private fun doProcessFunctions(
         name: Name
     ): Collection<FirFunctionSymbol<*>> = mutableListOf<FirFunctionSymbol<*>>().apply {
-        val overrideCandidates = mutableSetOf<FirFunctionSymbol<*>>()
+        val overrideCandidates = mutableSetOf<FirCallableSymbol<*>>()
         declaredMemberScope.processFunctionsByName(name) {
             if (it.isStatic) return@processFunctionsByName
             val directOverridden = computeDirectOverridden(it)
@@ -43,6 +44,20 @@ abstract class AbstractFirUseSiteMemberScope(
             val symbol = processInheritedDefaultParameters(it, directOverridden)
             overrideCandidates += symbol
             add(symbol)
+        }
+
+        val potentialPropertyName = session.syntheticNamesProvider.propertyNameByAccessorName(name)
+        if (potentialPropertyName != null) {
+            var found = false
+            declaredMemberScope.processPropertiesByName(potentialPropertyName) {
+                overrideCandidates += it
+                found = true
+            }
+            if (!found) {
+                superTypesScope.processPropertiesByName(potentialPropertyName) {
+                    overrideCandidates += it
+                }
+            }
         }
 
         superTypesScope.processFunctionsByName(name) {

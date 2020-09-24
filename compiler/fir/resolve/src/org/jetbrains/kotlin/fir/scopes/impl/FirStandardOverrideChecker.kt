@@ -128,4 +128,9 @@ class FirStandardOverrideChecker(session: FirSession) : FirAbstractOverrideCheck
         val substitutor = buildTypeParametersSubstitutorIfCompatible(overrideCandidate, baseDeclaration) ?: return false
         return isEqualReceiverTypes(overrideCandidate.receiverTypeRef, baseDeclaration.receiverTypeRef, substitutor)
     }
+
+    override fun isOverriddenSetter(overrideCandidate: FirProperty, baseDeclaration: FirSimpleFunction): Boolean {
+        val substitutor = buildTypeParametersSubstitutorIfCompatible(overrideCandidate, baseDeclaration) ?: return false
+        return isEqualTypes(overrideCandidate.returnTypeRef, baseDeclaration.valueParameters.single().returnTypeRef, substitutor)
+    }
 }
