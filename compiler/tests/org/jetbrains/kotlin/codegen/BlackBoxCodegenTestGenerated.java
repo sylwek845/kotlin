@@ -14401,6 +14401,11 @@ public class BlackBoxCodegenTestGenerated extends AbstractBlackBoxCodegenTest {
             runTest("compiler/testData/codegen/box/increment/classVarargGetSet.kt");
         }
 
+        @TestMetadata("classVarargGetSetEvaluationOrder.kt")
+        public void testClassVarargGetSetEvaluationOrder() throws Exception {
+            runTest("compiler/testData/codegen/box/increment/classVarargGetSetEvaluationOrder.kt");
+        }
+
         @TestMetadata("classWithGetSet.kt")
         public void testClassWithGetSet() throws Exception {
             runTest("compiler/testData/codegen/box/increment/classWithGetSet.kt");
@@ -19245,6 +19250,11 @@ public class BlackBoxCodegenTestGenerated extends AbstractBlackBoxCodegenTest {
         @TestMetadata("varargs.kt")
         public void testVarargs() throws Exception {
             runTest("compiler/testData/codegen/box/mixedNamedPosition/varargs.kt");
+        }
+
+        @TestMetadata("varargsEvaluationOrder.kt")
+        public void testVarargsEvaluationOrder() throws Exception {
+            runTest("compiler/testData/codegen/box/mixedNamedPosition/varargsEvaluationOrder.kt");
         }
     }
 
@@ -33290,6 +33300,11 @@ public class BlackBoxCodegenTestGenerated extends AbstractBlackBoxCodegenTest {
         @TestMetadata("emptyVarargOfBoxedPrimitiveType.kt")
         public void testEmptyVarargOfBoxedPrimitiveType() throws Exception {
             runTest("compiler/testData/codegen/box/vararg/emptyVarargOfBoxedPrimitiveType.kt");
+        }
+
+        @TestMetadata("evaluationOrder.kt")
+        public void testEvaluationOrder() throws Exception {
+            runTest("compiler/testData/codegen/box/vararg/evaluationOrder.kt");
         }
 
         @TestMetadata("kt1978.kt")
