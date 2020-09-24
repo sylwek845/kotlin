@@ -1,0 +1,22 @@
+FILE: test.kt
+    public abstract interface DescriptorWithAccessor : R|kotlin/Any| {
+        public abstract val setter: R|kotlin/String|
+            public get(): R|kotlin/String|
+
+    }
+    public final class WrappedPropertyDescriptor : R|PropertyDescriptor| {
+        public constructor(): R|WrappedPropertyDescriptor| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final override val setter: R|kotlin/String|
+            public get(): R|kotlin/String| {
+                ^ String(K)
+            }
+
+    }
+    public final fun test(): R|kotlin/Unit| {
+        lval descriptor: R|WrappedPropertyDescriptor| = R|/WrappedPropertyDescriptor.WrappedPropertyDescriptor|()
+        lval res1: R|kotlin/String| = R|<local>/descriptor|.R|/WrappedPropertyDescriptor.setter|
+        lval res2: R|kotlin/String| = R|<local>/descriptor|.R|/PropertyDescriptor.getSetter|()
+    }
