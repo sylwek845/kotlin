@@ -88,7 +88,7 @@ projectTest("testNative", shortenTempRootName = shortenTempRootName) {
     includeNative()
 }
 
-projectTest("testNativeAdvanceGradleVersion", shortenTempRootName = shortenTempRootName) {
+projectTest("testAdvanceGradleVersionNative", shortenTempRootName = shortenTempRootName) {
     advanceGradleVersion()
     includeNative()
 }
