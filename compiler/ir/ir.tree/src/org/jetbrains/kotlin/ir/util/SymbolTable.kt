@@ -640,6 +640,7 @@ class SymbolTable(
         return signaturer.composeSignature(descriptor)?.let { IrPropertyPublicSymbolImpl(descriptor, it) } ?: IrPropertySymbolImpl(
             descriptor
         )
+
     }
 
     @OptIn(ObsoleteDescriptorBasedAPI::class)
