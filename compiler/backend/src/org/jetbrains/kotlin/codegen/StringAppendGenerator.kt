@@ -20,6 +20,7 @@ class StringAppendGenerator(val useInvokeDynamic: Boolean, val mv: InstructionAd
 
     private val template = StringBuilder("")
     private val paramTypes = arrayListOf<Type>()
+    private var flushed = false
 
     @JvmOverloads
     fun genStringBuilderConstructorIfNeded(swap: Boolean = false) {
@@ -59,8 +60,15 @@ class StringAppendGenerator(val useInvokeDynamic: Boolean, val mv: InstructionAd
                 false
             )
         } else {
+            flushed = false
             paramTypes.add(type)
             template.append("\u0001")
+            if (paramTypes.size == 200) {
+                // Concat current args into string because of `StringConcatFactory` limitation add use it as new parameter.
+                // (The number of parameter slots in {@code concatType} is less than or equal to 200)
+                genToString()
+                flushed = true
+            }
         }
     }
 
@@ -68,6 +76,7 @@ class StringAppendGenerator(val useInvokeDynamic: Boolean, val mv: InstructionAd
         if (!useInvokeDynamic) {
             mv.invokevirtual("java/lang/StringBuilder", "toString", "()Ljava/lang/String;", false)
         } else {
+            if (template.isEmpty() && paramTypes.size == 1 && paramTypes[0] == JAVA_STRING_TYPE) return
             val bootstrap = Handle(
                 Opcodes.H_INVOKESTATIC,
                 "java/lang/invoke/StringConcatFactory",
@@ -82,6 +91,9 @@ class StringAppendGenerator(val useInvokeDynamic: Boolean, val mv: InstructionAd
                 bootstrap,
                 arrayOf(template.toString())
             )
+            template.clear()
+            paramTypes.clear()
+            paramTypes.add(JAVA_STRING_TYPE)
         }
     }
 
