@@ -111,9 +111,14 @@ open class IdSignatureSerializer(val mangler: KotlinMangler.IrMangler) : IdSigna
     }
 
     private fun IrDeclaration.isMemberOrAccessor(): Boolean {
-        if (this !is IrOverridableMember) return false
-        if (this.parent !is IrClass) return false
-        if ((this as? IrSimpleFunction)?.origin == IrDeclarationOrigin.LOCAL_FUNCTION_FOR_LAMBDA) return false
+        when (this) {
+            is IrSimpleFunction -> if (this.dispatchReceiverParameter == null) return false
+            is IrProperty
+                -> if (this.getter?.dispatchReceiverParameter == null &&
+                       this.setter?.dispatchReceiverParameter == null) return false
+            else -> return false
+        }
+
         return true
     }
 
