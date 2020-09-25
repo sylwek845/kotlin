@@ -6,6 +6,7 @@
 package org.jetbrains.kotlin.backend.common.serialization.signature
 
 import org.jetbrains.kotlin.backend.common.serialization.DeclarationTable
+import org.jetbrains.kotlin.descriptors.DescriptorVisibilities
 import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.util.IdSignature
@@ -110,7 +111,7 @@ open class IdSignatureSerializer(val mangler: KotlinMangler.IrMangler) : IdSigna
         return publicSignatureBuilder.buildSignature(declaration)
     }
 
-    private fun IrDeclaration.isMemberOrAccessor(): Boolean {
+    private fun IrDeclaration.isOverridableMemberOrAccessor(): Boolean {
         when (this) {
             is IrSimpleFunction -> if (this.dispatchReceiverParameter == null) return false
             is IrProperty
@@ -118,6 +119,8 @@ open class IdSignatureSerializer(val mangler: KotlinMangler.IrMangler) : IdSigna
                        this.setter?.dispatchReceiverParameter == null) return false
             else -> return false
         }
+        require(this is IrDeclarationWithVisibility)
+        if (this.visibility == DescriptorVisibilities.PRIVATE) return false
 
         return true
     }
@@ -139,7 +142,7 @@ open class IdSignatureSerializer(val mangler: KotlinMangler.IrMangler) : IdSigna
                         ?: composeContainerIdSignature(parent)
                     IdSignature.FileLocalSignature(
                         p,
-                        if (declaration.isMemberOrAccessor()) {
+                        if (declaration.isOverridableMemberOrAccessor()) {
                             mangler.run { declaration.signatureMangle }
                         } else {
                             ++localIndex
@@ -150,7 +153,7 @@ open class IdSignatureSerializer(val mangler: KotlinMangler.IrMangler) : IdSigna
                     val parent = declaration.parent
                     IdSignature.FileLocalSignature(
                         composeContainerIdSignature(parent),
-                        if (declaration.isMemberOrAccessor()) {
+                        if (declaration.isOverridableMemberOrAccessor()) {
                             mangler.run { declaration.signatureMangle }
                         } else {
                             ++localIndex
