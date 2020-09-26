@@ -17,8 +17,25 @@
 package org.jetbrains.kotlin.ir.expressions
 
 import org.jetbrains.kotlin.ir.symbols.IrReturnTargetSymbol
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
 
-abstract class IrReturn : IrExpression() {
-    abstract var value: IrExpression
-    abstract val returnTargetSymbol: IrReturnTargetSymbol
+class IrReturn(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    val returnTargetSymbol: IrReturnTargetSymbol,
+    var value: IrExpression,
+) : IrExpression() {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitReturn(this, data)
+
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        value.accept(visitor, data)
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        value = value.transform(transformer, data)
+    }
 }

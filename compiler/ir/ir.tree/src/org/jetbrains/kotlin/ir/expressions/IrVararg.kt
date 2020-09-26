@@ -20,20 +20,69 @@ import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.IrElementBase
 import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
+import org.jetbrains.kotlin.utils.SmartList
 
 interface IrVarargElement : IrElement
 
-abstract class IrVararg : IrExpression() {
-    abstract var varargElementType: IrType
+class IrVararg(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    var varargElementType: IrType
+) : IrExpression() {
+    constructor(
+        startOffset: Int,
+        endOffset: Int,
+        type: IrType,
+        varargElementType: IrType,
+        elements: List<IrVarargElement>
+    ) : this(startOffset, endOffset, type, varargElementType) {
+        this.elements.addAll(elements)
+    }
 
-    abstract val elements: List<IrVarargElement>
+    val elements: MutableList<IrVarargElement> = SmartList()
 
-    abstract fun putElement(i: Int, element: IrVarargElement)
+    fun addElement(varargElement: IrVarargElement) {
+        elements.add(varargElement)
+    }
+
+    fun putElement(i: Int, element: IrVarargElement) {
+        elements[i] = element
+    }
+
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R {
+        return visitor.visitVararg(this, data)
+    }
+
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        elements.forEach { it.accept(visitor, data) }
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        elements.forEachIndexed { i, irVarargElement ->
+            elements[i] = irVarargElement.transform(transformer, data) as IrVarargElement
+        }
+    }
 }
 
-abstract class IrSpreadElement : IrElementBase(), IrVarargElement {
-    abstract var expression: IrExpression
+class IrSpreadElement(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    var expression: IrExpression,
+) : IrElementBase(), IrVarargElement {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R {
+        return visitor.visitSpreadElement(this, data)
+    }
 
     override fun <D> transform(transformer: IrElementTransformer<D>, data: D): IrElement =
         accept(transformer, data) as IrSpreadElement
+
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        expression.accept(visitor, data)
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        expression = expression.transform(transformer, data)
+    }
 }

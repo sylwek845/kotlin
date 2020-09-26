@@ -16,11 +16,32 @@
 
 package org.jetbrains.kotlin.ir.expressions
 
+import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
 import org.jetbrains.kotlin.ir.symbols.IrConstructorSymbol
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
 
-abstract class IrEnumConstructorCall(
+class IrEnumConstructorCall(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    override val symbol: IrConstructorSymbol,
     typeArgumentsCount: Int,
-    valueArgumentsCount: Int,
+    valueArgumentsCount: Int
 ) : IrFunctionAccessExpression(typeArgumentsCount, valueArgumentsCount) {
-    abstract override val symbol: IrConstructorSymbol
+    override val origin: IrStatementOrigin?
+        get() = null
+
+    @ObsoleteDescriptorBasedAPI
+    constructor(
+        startOffset: Int,
+        endOffset: Int,
+        type: IrType,
+        symbol: IrConstructorSymbol,
+        typeArgumentsCount: Int
+    ) : this(startOffset, endOffset, type, symbol, typeArgumentsCount, symbol.descriptor.valueParameters.size)
+
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R {
+        return visitor.visitEnumConstructorCall(this, data)
+    }
 }

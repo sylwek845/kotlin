@@ -16,6 +16,10 @@
 
 package org.jetbrains.kotlin.ir.expressions
 
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
+
 abstract class IrLoop : IrExpression() {
     abstract val origin: IrStatementOrigin?
 
@@ -24,6 +28,44 @@ abstract class IrLoop : IrExpression() {
     var label: String? = null
 }
 
-abstract class IrWhileLoop : IrLoop()
+class IrWhileLoop(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    override val origin: IrStatementOrigin?,
+) : IrLoop() {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R {
+        return visitor.visitWhileLoop(this, data)
+    }
 
-abstract class IrDoWhileLoop : IrLoop()
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        condition.accept(visitor, data)
+        body?.accept(visitor, data)
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        condition = condition.transform(transformer, data)
+        body = body?.transform(transformer, data)
+    }
+}
+
+class IrDoWhileLoop(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    override val origin: IrStatementOrigin?,
+) : IrLoop() {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R {
+        return visitor.visitDoWhileLoop(this, data)
+    }
+
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        body?.accept(visitor, data)
+        condition.accept(visitor, data)
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        body = body?.transform(transformer, data)
+        condition = condition.transform(transformer, data)
+    }
+}

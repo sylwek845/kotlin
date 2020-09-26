@@ -5,14 +5,39 @@
 
 package org.jetbrains.kotlin.ir.expressions
 
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
+import org.jetbrains.kotlin.utils.SmartList
+
 abstract class IrDynamicExpression : IrExpression()
 
-abstract class IrDynamicOperatorExpression : IrDynamicExpression() {
-    abstract val operator: IrDynamicOperator
+class IrDynamicOperatorExpression(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    val operator: IrDynamicOperator,
+) : IrDynamicExpression() {
+    lateinit var receiver: IrExpression
 
-    abstract var receiver: IrExpression
+    val arguments: MutableList<IrExpression> = SmartList()
 
-    abstract val arguments: MutableList<IrExpression>
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitDynamicOperatorExpression(this, data)
+
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        receiver.accept(visitor, data)
+        for (valueArgument in arguments) {
+            valueArgument.accept(visitor, data)
+        }
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        receiver = receiver.transform(transformer, data)
+        for (i in arguments.indices) {
+            arguments[i] = arguments[i].transform(transformer, data)
+        }
+    }
 }
 
 var IrDynamicOperatorExpression.left: IrExpression
@@ -30,10 +55,23 @@ var IrDynamicOperatorExpression.right: IrExpression
             arguments[0] = value
     }
 
-abstract class IrDynamicMemberExpression : IrDynamicExpression() {
-    abstract val memberName: String
+class IrDynamicMemberExpression(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    val memberName: String,
+    var receiver: IrExpression,
+) : IrDynamicExpression() {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitDynamicMemberExpression(this, data)
 
-    abstract var receiver: IrExpression
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        receiver.accept(visitor, data)
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        receiver = receiver.transform(transformer, data)
+    }
 }
 
 enum class IrDynamicOperator(val image: String, val isAssignmentOperator: Boolean = false) {

@@ -16,8 +16,41 @@
 
 package org.jetbrains.kotlin.ir.expressions
 
-abstract class IrStringConcatenation : IrExpression() {
-    abstract val arguments: List<IrExpression>
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
+import java.util.ArrayList
 
-    abstract fun addArgument(argument: IrExpression)
+class IrStringConcatenation(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+) : IrExpression() {
+    constructor(
+        startOffset: Int,
+        endOffset: Int,
+        type: IrType,
+        arguments: Collection<IrExpression>
+    ) : this(startOffset, endOffset, type) {
+        this.arguments.addAll(arguments)
+    }
+
+    val arguments: MutableList<IrExpression> = ArrayList()
+
+    fun addArgument(argument: IrExpression) {
+        arguments.add(argument)
+    }
+
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitStringConcatenation(this, data)
+
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        arguments.forEach { it.accept(visitor, data) }
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        arguments.forEachIndexed { i, irExpression ->
+            arguments[i] = irExpression.transform(transformer, data)
+        }
+    }
 }

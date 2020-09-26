@@ -16,11 +16,41 @@
 
 package org.jetbrains.kotlin.ir.expressions
 
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
+import org.jetbrains.kotlin.utils.SmartList
+
 abstract class IrErrorExpression : IrExpression() {
     abstract val description: String
 }
 
-abstract class IrErrorCallExpression : IrErrorExpression() {
-    abstract var explicitReceiver: IrExpression?
-    abstract val arguments: MutableList<IrExpression>
+class IrErrorCallExpression(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    override val description: String
+) : IrErrorExpression() {
+    var explicitReceiver: IrExpression? = null
+    val arguments: MutableList<IrExpression> = SmartList()
+
+    fun addArgument(argument: IrExpression) {
+        arguments.add(argument)
+    }
+
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R {
+        return visitor.visitErrorCallExpression(this, data)
+    }
+
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        explicitReceiver?.accept(visitor, data)
+        arguments.forEach { it.accept(visitor, data) }
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        explicitReceiver = explicitReceiver?.transform(transformer, data)
+        arguments.forEachIndexed { i, irExpression ->
+            arguments[i] = irExpression.transform(transformer, data)
+        }
+    }
 }

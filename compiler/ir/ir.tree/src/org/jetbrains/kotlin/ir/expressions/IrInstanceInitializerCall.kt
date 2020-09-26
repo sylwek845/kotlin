@@ -17,7 +17,16 @@
 package org.jetbrains.kotlin.ir.expressions
 
 import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
 
-abstract class IrInstanceInitializerCall : IrExpression() {
-    abstract val classSymbol: IrClassSymbol
+class IrInstanceInitializerCall(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    val classSymbol: IrClassSymbol,
+    override var type: IrType,
+) : IrExpression() {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R {
+        return visitor.visitInstanceInitializerCall(this, data)
+    }
 }

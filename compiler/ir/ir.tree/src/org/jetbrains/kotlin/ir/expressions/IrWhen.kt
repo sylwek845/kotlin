@@ -56,4 +56,18 @@ abstract class IrBranch : IrElementBase() {
     }
 }
 
-abstract class IrElseBranch : IrBranch()
+class IrElseBranch(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var condition: IrExpression,
+    override var result: IrExpression
+) : IrBranch() {
+    constructor(condition: IrExpression, result: IrExpression) :
+            this(condition.startOffset, condition.endOffset, condition, result)
+
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitElseBranch(this, data)
+
+    override fun <D> transform(transformer: IrElementTransformer<D>, data: D): IrElseBranch =
+        transformer.visitElseBranch(this, data)
+}

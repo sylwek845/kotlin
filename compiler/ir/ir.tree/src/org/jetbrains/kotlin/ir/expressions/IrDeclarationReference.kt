@@ -18,8 +18,9 @@ package org.jetbrains.kotlin.ir.expressions
 
 import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.symbols.IrEnumEntrySymbol
-import org.jetbrains.kotlin.ir.symbols.IrFunctionSymbol
 import org.jetbrains.kotlin.ir.symbols.IrSymbol
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
 
 abstract class IrDeclarationReference : IrExpression() {
     abstract val symbol: IrSymbol
@@ -27,19 +28,23 @@ abstract class IrDeclarationReference : IrExpression() {
 
 abstract class IrGetSingletonValue : IrDeclarationReference()
 
-abstract class IrGetObjectValue : IrGetSingletonValue() {
-    abstract override val symbol: IrClassSymbol
+class IrGetObjectValue(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    override val symbol: IrClassSymbol,
+) : IrGetSingletonValue() {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitGetObjectValue(this, data)
 }
 
-abstract class IrGetEnumValue : IrGetSingletonValue() {
-    abstract override val symbol: IrEnumEntrySymbol
-}
-
-/**
- * Platform-specific low-level reference to function.
- *
- * On JS platform represent a plain reference to JavaScript function.
- */
-abstract class IrRawFunctionReference : IrDeclarationReference() {
-    abstract override val symbol: IrFunctionSymbol
+class IrGetEnumValue(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    override val symbol: IrEnumEntrySymbol,
+) : IrGetSingletonValue() {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R {
+        return visitor.visitGetEnumValue(this, data)
+    }
 }

@@ -18,16 +18,56 @@ package org.jetbrains.kotlin.ir.declarations
 
 import org.jetbrains.kotlin.descriptors.VariableDescriptor
 import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
+import org.jetbrains.kotlin.ir.expressions.IrConstructorCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.symbols.IrVariableSymbol
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
+import org.jetbrains.kotlin.name.Name
 
-abstract class IrVariable : IrValueDeclaration(), IrSymbolDeclaration<IrVariableSymbol> {
+class IrVariable(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var origin: IrDeclarationOrigin,
+    override val symbol: IrVariableSymbol,
+    override val name: Name,
+    override var type: IrType,
+    val isVar: Boolean,
+    val isConst: Boolean,
+    val isLateinit: Boolean,
+) : IrValueDeclaration(), IrSymbolDeclaration<IrVariableSymbol> {
+    private var _parent: IrDeclarationParent? = null
+    override var parent: IrDeclarationParent
+        get() = _parent
+            ?: throw UninitializedPropertyAccessException("Parent not initialized: $this")
+        set(v) {
+            _parent = v
+        }
+
+    override var annotations: List<IrConstructorCall> = emptyList()
+
+    init {
+        symbol.bind(this)
+    }
+
     @ObsoleteDescriptorBasedAPI
-    abstract override val descriptor: VariableDescriptor
+    override val descriptor: VariableDescriptor
+        get() = symbol.descriptor
 
-    abstract val isVar: Boolean
-    abstract val isConst: Boolean
-    abstract val isLateinit: Boolean
+    var initializer: IrExpression? = null
 
-    abstract var initializer: IrExpression?
+    override val factory: IrFactory
+        get() = error("Create IrVariableImpl directly")
+
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitVariable(this, data)
+
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        initializer?.accept(visitor, data)
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        initializer = initializer?.transform(transformer, data)
+    }
 }

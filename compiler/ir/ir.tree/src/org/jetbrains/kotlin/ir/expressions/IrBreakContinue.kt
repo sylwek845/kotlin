@@ -16,12 +16,31 @@
 
 package org.jetbrains.kotlin.ir.expressions
 
+import org.jetbrains.kotlin.ir.types.IrType
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
+
 abstract class IrBreakContinue : IrExpression() {
     abstract var loop: IrLoop
 
     var label: String? = null
 }
 
-abstract class IrBreak : IrBreakContinue()
+class IrBreak(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    override var loop: IrLoop,
+) : IrBreakContinue() {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitBreak(this, data)
+}
 
-abstract class IrContinue : IrBreakContinue()
+class IrContinue(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    override var loop: IrLoop,
+) : IrBreakContinue() {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitContinue(this, data)
+}

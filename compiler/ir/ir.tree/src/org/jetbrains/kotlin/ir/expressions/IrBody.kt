@@ -64,8 +64,25 @@ abstract class IrBlockBody : IrBody(), IrStatementContainer {
     }
 }
 
-abstract class IrSyntheticBody : IrBody() {
-    abstract val kind: IrSyntheticBodyKind
+class IrSyntheticBody(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    val kind: IrSyntheticBodyKind,
+) : IrBody() {
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R {
+        return visitor.visitSyntheticBody(this, data)
+    }
+
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        // no children
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        // no children
+    }
+
+    override fun toString(): String =
+        "IrSyntheticBodyImpl($kind)"
 }
 
 enum class IrSyntheticBodyKind {

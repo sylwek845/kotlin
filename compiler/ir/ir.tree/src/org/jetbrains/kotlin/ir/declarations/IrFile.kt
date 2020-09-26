@@ -18,13 +18,15 @@ package org.jetbrains.kotlin.ir.declarations
 
 import org.jetbrains.kotlin.descriptors.PackageFragmentDescriptor
 import org.jetbrains.kotlin.ir.IrElementBase
+import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
 import org.jetbrains.kotlin.ir.SourceManager
-import org.jetbrains.kotlin.ir.symbols.IrExternalPackageFragmentSymbol
+import org.jetbrains.kotlin.ir.expressions.IrConstructorCall
 import org.jetbrains.kotlin.ir.symbols.IrFileSymbol
 import org.jetbrains.kotlin.ir.symbols.IrPackageFragmentSymbol
+import org.jetbrains.kotlin.ir.symbols.impl.IrFileSymbolImpl
 import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
+import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
 import org.jetbrains.kotlin.name.FqName
-import org.jetbrains.kotlin.serialization.deserialization.descriptors.DeserializedContainerSource
 import java.io.File
 
 abstract class IrPackageFragment : IrElementBase(), IrDeclarationContainer, IrSymbolOwner {
@@ -34,18 +36,50 @@ abstract class IrPackageFragment : IrElementBase(), IrDeclarationContainer, IrSy
     abstract val fqName: FqName
 }
 
-abstract class IrExternalPackageFragment : IrPackageFragment() {
-    abstract override val symbol: IrExternalPackageFragmentSymbol
-    abstract val containerSource: DeserializedContainerSource?
-}
+class IrFile(
+    val fileEntry: SourceManager.FileEntry,
+    override val symbol: IrFileSymbol,
+    override val fqName: FqName,
+) : IrPackageFragment(), IrMutableAnnotationContainer, IrMetadataSourceOwner {
+    constructor(
+        fileEntry: SourceManager.FileEntry,
+        packageFragmentDescriptor: PackageFragmentDescriptor
+    ) : this(fileEntry, IrFileSymbolImpl(packageFragmentDescriptor), packageFragmentDescriptor.fqName)
 
-abstract class IrFile : IrPackageFragment(), IrMutableAnnotationContainer, IrMetadataSourceOwner {
-    abstract override val symbol: IrFileSymbol
+    init {
+        symbol.bind(this)
+    }
 
-    abstract val fileEntry: SourceManager.FileEntry
+    override val startOffset: Int
+        get() = 0
+
+    override val endOffset: Int
+        get() = fileEntry.maxOffset
+
+    @ObsoleteDescriptorBasedAPI
+    override val packageFragmentDescriptor: PackageFragmentDescriptor get() = symbol.descriptor
+
+    override val declarations: MutableList<IrDeclaration> = ArrayList()
+
+    override var annotations: List<IrConstructorCall> = emptyList()
+
+    override var metadata: MetadataSource? = null
+
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitFile(this, data)
 
     override fun <D> transform(transformer: IrElementTransformer<D>, data: D): IrFile =
         accept(transformer, data) as IrFile
+
+    override fun <D> acceptChildren(visitor: IrElementVisitor<Unit, D>, data: D) {
+        declarations.forEach { it.accept(visitor, data) }
+    }
+
+    override fun <D> transformChildren(transformer: IrElementTransformer<D>, data: D) {
+        declarations.forEachIndexed { i, irDeclaration ->
+            declarations[i] = irDeclaration.transform(transformer, data) as IrDeclaration
+        }
+    }
 }
 
 val IrFile.path: String get() = fileEntry.name

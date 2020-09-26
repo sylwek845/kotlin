@@ -17,12 +17,7 @@
 package org.jetbrains.kotlin.ir.expressions
 
 import org.jetbrains.kotlin.ir.IrStatement
-import org.jetbrains.kotlin.ir.declarations.IrReturnTarget
-import org.jetbrains.kotlin.ir.declarations.IrSymbolOwner
-import org.jetbrains.kotlin.ir.symbols.IrFileSymbol
-import org.jetbrains.kotlin.ir.symbols.IrFunctionSymbol
-import org.jetbrains.kotlin.ir.symbols.IrReturnableBlockSymbol
-import org.jetbrains.kotlin.ir.util.file
+import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.util.transformInPlace
 import org.jetbrains.kotlin.ir.visitors.IrElementTransformer
 import org.jetbrains.kotlin.ir.visitors.IrElementVisitor
@@ -45,19 +40,30 @@ abstract class IrContainerExpression : IrExpression(), IrStatementContainer {
 abstract class IrBlock : IrContainerExpression() {
     override val isTransparentScope: Boolean
         get() = false
+
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitBlock(this, data)
 }
 
-abstract class IrComposite : IrContainerExpression() {
+class IrComposite(
+    override val startOffset: Int,
+    override val endOffset: Int,
+    override var type: IrType,
+    override val origin: IrStatementOrigin? = null,
+) : IrContainerExpression() {
+    constructor(
+        startOffset: Int,
+        endOffset: Int,
+        type: IrType,
+        origin: IrStatementOrigin?,
+        statements: List<IrStatement>
+    ) : this(startOffset, endOffset, type, origin) {
+        this.statements.addAll(statements)
+    }
+
     override val isTransparentScope: Boolean
         get() = true
+
+    override fun <R, D> accept(visitor: IrElementVisitor<R, D>, data: D): R =
+        visitor.visitComposite(this, data)
 }
-
-abstract class IrReturnableBlock : IrBlock(), IrSymbolOwner, IrReturnTarget {
-    abstract override val symbol: IrReturnableBlockSymbol
-
-    abstract val inlineFunctionSymbol: IrFunctionSymbol?
-}
-
-@Suppress("unused") // Used in kotlin-native
-val IrReturnableBlock.sourceFileSymbol: IrFileSymbol?
-    get() = inlineFunctionSymbol?.owner?.file?.symbol
