@@ -15,7 +15,11 @@ enum class ActionRunningMode {
 
 inline fun <T> ActionRunningMode.runAction(crossinline action: () -> T): T = when (this) {
     ActionRunningMode.RUN_IN_CURRENT_THREAD -> {
-        action()
+        var result: T? = null
+        CommandProcessor.getInstance().runUndoTransparentAction {
+            result = action()
+        }
+        result!!
     }
     ActionRunningMode.RUN_IN_EDT -> {
         var result: T? = null

@@ -16,7 +16,7 @@
 
 package org.jetbrains.kotlin.idea.codeInsight.shorten
 
-import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.runReadAction
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
@@ -27,6 +27,8 @@ import org.jetbrains.kotlin.idea.caches.resolve.util.getJavaMemberDescriptor
 import org.jetbrains.kotlin.idea.core.ShortenReferences
 import org.jetbrains.kotlin.idea.core.ShortenReferences.Options
 import org.jetbrains.kotlin.idea.util.ImportInsertHelper
+import org.jetbrains.kotlin.idea.util.application.assertIsDispatchThread
+import org.jetbrains.kotlin.idea.util.application.assertWriteAccessAllowed
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.createSmartPointer
 import org.jetbrains.kotlin.psi.psiUtil.forEachDescendantOfType
@@ -73,14 +75,14 @@ private fun Project.getOrCreateRefactoringRequests(): MutableSet<DelayedRefactor
 }
 
 fun KtElement.addToShorteningWaitSet(options: Options = Options.DEFAULT) {
-    assert(ApplicationManager.getApplication()!!.isWriteAccessAllowed) { "Write access needed" }
+    assertIsDispatchThread()
     val project = project
     val elementPointer = SmartPointerManager.getInstance(project).createSmartPsiElementPointer(this)
     project.getOrCreateRefactoringRequests().add(ShorteningRequest(elementPointer, options))
 }
 
 fun addDelayedImportRequest(elementToImport: PsiElement, file: KtFile) {
-    assert(ApplicationManager.getApplication()!!.isWriteAccessAllowed) { "Write access needed" }
+    assertIsDispatchThread()
     file.project.getOrCreateRefactoringRequests() += ImportRequest(elementToImport.createSmartPointer(), file.createSmartPointer())
 }
 
@@ -98,7 +100,9 @@ fun performDelayedRefactoringRequests(project: Project) {
             }
         }
 
-        val elementToOptions = shorteningRequests.mapNotNull { req -> req.pointer.element?.let { it to req.options } }.toMap()
+        val elementToOptions = shorteningRequests.mapNotNull { req ->
+            runReadAction { req.pointer.element }?.let { it to req.options }
+        }.toMap()
         val elements = elementToOptions.keys
         //TODO: this is not correct because it should not shorten deep into the elements!
         ShortenReferences { elementToOptions[it] ?: Options.DEFAULT }.process(elements)
@@ -109,7 +113,7 @@ fun performDelayedRefactoringRequests(project: Project) {
             if (file == null) continue
 
             for (requestForFile in requestsForFile) {
-                val elementToImport = requestForFile.elementToImportPointer.element?.unwrapped ?: continue
+                val elementToImport = runReadAction { requestForFile.elementToImportPointer.element }?.unwrapped ?: continue
                 val descriptorToImport = when (elementToImport) {
                     is KtDeclaration -> elementToImport.unsafeResolveToDescriptor(BodyResolveMode.PARTIAL)
                     is PsiMember -> elementToImport.getJavaMemberDescriptor()
