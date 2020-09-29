@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.fir.types.builder.buildErrorTypeRef
 import org.jetbrains.kotlin.fir.visitors.CompositeTransformResult
 import org.jetbrains.kotlin.fir.visitors.compose
 import org.jetbrains.kotlin.fir.visitors.transformSingle
+import org.jetbrains.kotlin.utils.addToStdlib.runIf
 
 @OptIn(AdapterForResolveProcessor::class)
 class FirStatusResolveProcessor(
@@ -271,6 +272,62 @@ abstract class AbstractFirStatusResolveTransformer(
 
     override fun transformBlock(block: FirBlock, data: FirResolvedDeclarationStatus?): CompositeTransformResult<FirStatement> {
         return block.compose()
+    }
+}
+
+class FirStatusResolver(
+    val session: FirSession,
+    val scopeSession: ScopeSession
+) {
+    fun resolveStatus(property: FirProperty, containingClass: FirClass<*>?, isLocal: Boolean): FirResolvedDeclarationStatus {
+        TODO()
+    }
+
+    fun resolveStatus(property: FirSimpleFunction, containingClass: FirClass<*>?, isLocal: Boolean): FirResolvedDeclarationStatus {
+        TODO()
+    }
+
+    fun resolveStatus(property: FirClassLikeDeclaration<*>, containingClass: FirClass<*>?, isLocal: Boolean): FirResolvedDeclarationStatus {
+        TODO()
+    }
+
+    fun resolveStatus(property: FirPropertyAccessor, containingClass: FirClass<*>?, isLocal: Boolean): FirResolvedDeclarationStatus {
+        TODO()
+    }
+
+    fun resolveStatus(property: FirConstructor, containingClass: FirClass<*>?, isLocal: Boolean): FirResolvedDeclarationStatus {
+        TODO()
+    }
+
+    fun resolveStatus(property: FirField, containingClass: FirClass<*>?, isLocal: Boolean): FirResolvedDeclarationStatus {
+        TODO()
+    }
+
+    private inline fun <T : FirCallableMemberDeclaration<*>> resolveStatus(
+        declaration: T,
+        containingClass: FirClass<*>?,
+        isLocal: Boolean,
+        overriddenExtractor: () -> Collection<T>
+    ): FirResolvedDeclarationStatus {
+        val status = declaration.status
+        val overriddenStatuses = overriddenExtractor().map { it.status }
+        val visibility = when (status.visibility) {
+            Visibilities.Unknown -> when {
+                isLocal -> Visibilities.Local
+                declaration is FirConstructor && containingClass is FirAnonymousObject -> Visibilities.Private
+                else -> resolveVisibility(containingClass)
+            }
+            else -> status.visibility
+        }
+        TODO()
+    }
+
+    private fun resolveVisibility(
+        declaration: FirDeclaration,
+        containingClass: FirClass<*>?,
+        overriddenStatuses: List<FirDeclarationStatus>
+    ): Visibility {
+        TODO()
     }
 }
 
