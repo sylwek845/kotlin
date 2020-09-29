@@ -54,14 +54,14 @@ class IrNamerImpl(private val newNameTables: NameTables) : IrNamer {
         getNameForStaticDeclaration(function)
 
     override fun getNameForProperty(property: IrProperty): JsName =
-        property.getJsNameOrKotlinName().asString().toJsName()
+        newNameTables.globalNames.names[property]?.toJsName() ?: property.getJsNameOrKotlinName().asString().toJsName()
 
     override fun getRefForExternalClass(klass: IrClass): JsNameRef {
         val parent = klass.parent
         if (klass.isCompanion)
             return getRefForExternalClass(parent as IrClass)
 
-        val currentClassName = klass.getJsNameOrKotlinName().identifier
+        val currentClassName = newNameTables.globalNames.names[klass] ?: klass.getJsNameOrKotlinName().identifier
         return when (parent) {
             is IrClass ->
                 JsNameRef(currentClassName, getRefForExternalClass(parent))
