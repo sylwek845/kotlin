@@ -244,6 +244,7 @@ class K2JsIrCompiler : CLICompiler<K2JSCompilerArguments>() {
                     forceAllJs = arguments.irForceAllJs,
                     exportAll = arguments.irExportAll,
                     legacyPropertyAccess = arguments.irLegacyPropertyAccess,
+                    irPerModulePrefix = arguments.irPerModulePrefix
                 )
             } catch (e: JsIrCompilationError) {
                 return COMPILATION_ERROR
