@@ -9,6 +9,7 @@ import com.intellij.codeInsight.CodeInsightSettings
 import com.intellij.codeInsight.editorActions.CopyPastePostProcessor
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
+import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.diagnostic.ControlFlowException
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.Editor
@@ -727,7 +728,9 @@ class KotlinCopyPasteReferenceProcessor : CopyPastePostProcessor<BasicKotlinRefe
                 }
             }
         }
-        performDelayedRefactoringRequests(file.project)
+        CommandProcessor.getInstance().runUndoTransparentAction {
+            performDelayedRefactoringRequests(file.project)
+        }
     }
 
     private fun findImportableDescriptors(fqName: FqName, file: KtFile): Collection<DeclarationDescriptor> {
