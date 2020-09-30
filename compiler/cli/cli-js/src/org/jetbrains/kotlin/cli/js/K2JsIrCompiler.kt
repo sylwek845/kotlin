@@ -194,7 +194,8 @@ class K2JsIrCompiler : CLICompiler<K2JSCompilerArguments>() {
                     allDependencies = resolvedLibraries,
                     friendDependencies = friendDependencies,
                     outputKlibPath = outputKlibPath,
-                    nopack = arguments.irProduceKlibDir
+                    nopack = arguments.irProduceKlibDir,
+                    jsOutputName = FileUtil.getNameWithoutExtension(outputFile),
                 )
             } catch (e: JsIrCompilationError) {
                 return COMPILATION_ERROR

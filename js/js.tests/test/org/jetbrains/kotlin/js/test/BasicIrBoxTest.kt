@@ -181,7 +181,8 @@ abstract class BasicIrBoxTest(
                 allDependencies = resolvedLibraries,
                 friendDependencies = emptyList(),
                 outputKlibPath = actualOutputFile,
-                nopack = true
+                nopack = true,
+                null
             )
 
             compilationCache[outputFile.name.replace(".js", ".meta.js")] = actualOutputFile

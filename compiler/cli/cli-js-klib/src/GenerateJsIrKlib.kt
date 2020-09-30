@@ -88,7 +88,8 @@ fun buildKLib(
         allDependencies = allDependencies,
         friendDependencies = emptyList(),
         outputKlibPath = outputPath,
-        nopack = true
+        nopack = true,
+        null
     )
 }
 
