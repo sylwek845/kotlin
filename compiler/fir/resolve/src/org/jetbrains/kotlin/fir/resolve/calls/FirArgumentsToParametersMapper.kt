@@ -29,7 +29,6 @@ data class ArgumentMapping(
     // TODO: Consider changing this (and other similar declarations like Candidate.argumentMapping) to LinkedHashMap to signify that
     // order is important. Right now we're assuming that mutableMapOf() will always return a LinkedHashMap.
     val parameterToCallArgumentMap: Map<FirValueParameter, ResolvedCallArgument>,
-    val oldToNewArgumentMap: Map<FirExpression, FirExpression>,
     val diagnostics: List<ResolutionDiagnostic>
 ) {
     fun toArgumentToParameterMapping(): Map<FirExpression, FirValueParameter> {
@@ -46,7 +45,7 @@ data class ArgumentMapping(
     }
 }
 
-private val EmptyArgumentMapping = ArgumentMapping(emptyMap(), emptyMap(), emptyList())
+private val EmptyArgumentMapping = ArgumentMapping(emptyMap(), emptyList())
 
 fun mapArguments(
     arguments: List<FirExpression>,
@@ -64,7 +63,6 @@ fun mapArguments(
 
     // If this is an overloading indexed access operator, it could have default values or a vararg parameter in the middle.
     // For proper argument mapping, wrap the last one, which is supposed to be the updated value, as a named argument.
-    val oldToNewArgumentMap = mutableMapOf<FirExpression, FirExpression>()
     if ((function as? FirSimpleFunction)?.isOperator == true &&
         function.name == Name.identifier("set") &&
         function.valueParameters.any { it.defaultValue != null || it.isVararg }
@@ -78,7 +76,6 @@ fun mapArguments(
                 name = function.valueParameters.last().name
             }
             argumentsInParenthesis = argumentsInParenthesis.dropLast(1) + listOf(namedV)
-            oldToNewArgumentMap[v] = namedV
         }
     }
 
@@ -89,7 +86,7 @@ fun mapArguments(
     }
     processor.processDefaultsAndRunChecks()
 
-    return ArgumentMapping(processor.result, oldToNewArgumentMap, processor.diagnostics ?: emptyList())
+    return ArgumentMapping(processor.result, processor.diagnostics ?: emptyList())
 }
 
 private class FirCallArgumentsProcessor(private val function: FirFunction<*>) {

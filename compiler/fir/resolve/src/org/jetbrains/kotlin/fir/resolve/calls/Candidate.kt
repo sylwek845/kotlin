@@ -101,7 +101,6 @@ class Candidate(
     var usesSuspendConversion: Boolean = false
 
     var argumentMapping: Map<FirExpression, FirValueParameter>? = null
-    var oldToNewArgumentMapping: Map<FirExpression, FirExpression>? = null
     lateinit var typeArgumentMapping: TypeArgumentMapping
     val postponedAtoms = mutableListOf<PostponedResolvedAtom>()
 
