@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.idea.core.script.ucache
 
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.vfs.VirtualFile
@@ -12,9 +13,14 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.NonClasspathDirectoriesScope.compose
 import org.jetbrains.kotlin.idea.core.script.ScriptConfigurationManager.Companion.classpathEntryToVfs
 import org.jetbrains.kotlin.idea.core.script.ScriptConfigurationManager.Companion.toVfsRoots
+import org.jetbrains.kotlin.idea.core.script.ucache.ScriptCacheDependencies.Companion.scriptCacheDependencies
+import org.jetbrains.kotlin.idea.core.util.cachedFileAttribute
+import org.jetbrains.kotlin.idea.core.util.readObject
+import org.jetbrains.kotlin.idea.core.util.writeObject
 import org.jetbrains.kotlin.scripting.definitions.ScriptDefinition
 import org.jetbrains.kotlin.scripting.resolve.ScriptCompilationConfigurationWrapper
 import java.io.File
+import java.io.Serializable
 import java.lang.ref.Reference
 import java.lang.ref.SoftReference
 
@@ -115,9 +121,9 @@ class ScriptClassRootsCache(
     fun getScriptDependenciesClassFilesScope(file: VirtualFile): GlobalSearchScope =
         getHeavyScriptInfo(file.path)?.classFilesScope ?: GlobalSearchScope.EMPTY_SCOPE
 
-    fun diff(old: ScriptClassRootsCache?): Updates =
+    fun diff(project: Project, old: ScriptClassRootsCache?): Updates =
         when (old) {
-            null -> FullUpdate(this)
+            null -> FullUpdate(project, this)
             this -> NotChanged(this)
             else -> IncrementalUpdates(
                 this,
@@ -174,14 +180,16 @@ class ScriptClassRootsCache(
             get() = hasNewRoots || updatedScripts.isNotEmpty() || hasOldRoots
     }
 
-    class FullUpdate(override val cache: ScriptClassRootsCache) : Updates {
+    class FullUpdate(private val project: Project, override val cache: ScriptClassRootsCache) : Updates {
         override val changed: Boolean get() = true
         override val hasUpdatedScripts: Boolean get() = true
         override fun isScriptChanged(scriptPath: String): Boolean = true
 
         override val hasNewRoots: Boolean
             get() {
-                return cache.allDependenciesClassFiles.isNotEmpty() || cache.allDependenciesSources.isNotEmpty()
+                val actualScriptCacheDependencies = ScriptCacheDependencies(cache)
+                val scriptCacheDependencies = project.scriptCacheDependencies()
+                return scriptCacheDependencies != actualScriptCacheDependencies
             }
     }
 
@@ -193,3 +201,54 @@ class ScriptClassRootsCache(
     }
 }
 
+internal class ScriptCacheDependencies(
+    val classFiles: Set<String>,
+    val sources: Set<String>
+) : Serializable {
+    constructor(cache: ScriptClassRootsCache) : this(
+        cache.allDependenciesClassFiles.map(VirtualFile::getPath).toSet(),
+        cache.allDependenciesSources.map(VirtualFile::getPath).toSet()
+    )
+
+    fun save(project: Project) {
+        project.scriptCacheDependenciesFile()?.scriptCacheDependencies = this
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ScriptCacheDependencies
+
+        return classFiles == other.classFiles && sources == other.sources
+    }
+
+    override fun hashCode(): Int {
+        var result = classFiles.hashCode()
+        result = 31 * result + sources.hashCode()
+        return result
+    }
+
+    companion object {
+        private fun Project.scriptCacheDependenciesFile(): VirtualFile? {
+            var file = this.projectFile ?: return null
+            while (!file.isDirectory || file.name == Project.DIRECTORY_STORE_FOLDER) {
+                file = file.parent
+            }
+
+            return file
+        }
+
+        fun Project.scriptCacheDependencies(): ScriptCacheDependencies? =
+            scriptCacheDependenciesFile()?.scriptCacheDependencies
+
+    }
+
+}
+
+private var VirtualFile.scriptCacheDependencies: ScriptCacheDependencies? by cachedFileAttribute(
+    name = "kotlin-script-cache-dependencies",
+    version = 1,
+    read = { readObject() },
+    write = { writeObject(it) }
+)
