@@ -31,7 +31,6 @@ class IrModuleToJsTransformer(
     private val multiModule: Boolean = false,
     private val relativeRequirePath: Boolean = false,
     private val traceMethods: Boolean = false,
-    private val legacyPropertyAccess: Boolean = false,
     private val moduleToName: Map<IrModuleFragment, String> = emptyMap()
 ) {
     private val generateRegionComments = backendContext.configuration.getBoolean(JSConfigurationKeys.GENERATE_REGION_COMMENTS)
@@ -135,7 +134,6 @@ class IrModuleToJsTransformer(
             backendContext = backendContext,
             irNamer = nameGenerator,
             traceMethods = traceMethods,
-            legacyPropertyAccess = legacyPropertyAccess,
         )
         val rootContext = JsGenerationContext(
             currentFunction = null,

@@ -302,6 +302,9 @@ class JsIntrinsics(private val irBuiltIns: IrBuiltIns, val context: JsIrBackendC
 
     val captureStack = getInternalFunction("captureStack")
 
+    val safePropertyGet = getInternalFunction("safePropertyGet")
+    val safePropertySet = getInternalFunction("safePropertySet")
+
     // Helpers:
 
     private fun getInternalFunction(name: String) =

@@ -44,6 +44,7 @@ class JsIrBackendContext(
     override val scriptMode: Boolean = false,
     override val es6mode: Boolean = false,
     val exportAll: Boolean = false,
+    val legacyPropertyAccess: Boolean = false,
 ) : JsCommonBackendContext {
     override val transformedFunction
         get() = error("Use Mapping.inlineClassMemberToStatic instead")
