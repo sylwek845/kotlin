@@ -21,6 +21,7 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.psi.*
+import com.intellij.psi.codeStyle.CodeStyleManager
 import org.jetbrains.kotlin.asJava.unwrapped
 import org.jetbrains.kotlin.idea.caches.resolve.unsafeResolveToDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.util.getJavaMemberDescriptor
@@ -28,7 +29,7 @@ import org.jetbrains.kotlin.idea.core.ShortenReferences
 import org.jetbrains.kotlin.idea.core.ShortenReferences.Options
 import org.jetbrains.kotlin.idea.util.ImportInsertHelper
 import org.jetbrains.kotlin.idea.util.application.assertIsDispatchThread
-import org.jetbrains.kotlin.idea.util.application.assertWriteAccessAllowed
+import org.jetbrains.kotlin.idea.util.application.runWriteAction
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.createSmartPointer
 import org.jetbrains.kotlin.psi.psiUtil.forEachDescendantOfType
@@ -104,8 +105,17 @@ fun performDelayedRefactoringRequests(project: Project) {
             runReadAction { req.pointer.element }?.let { it to req.options }
         }.toMap()
         val elements = elementToOptions.keys
+        val files = runReadAction { elements.map(KtElement::getContainingKtFile).toSet() }
         //TODO: this is not correct because it should not shorten deep into the elements!
         ShortenReferences { elementToOptions[it] ?: Options.DEFAULT }.process(elements)
+
+        files.forEach { file ->
+            file.importList?.let { importList ->
+                runWriteAction {
+                    CodeStyleManager.getInstance(file.project).reformat(importList, true)
+                }
+            }
+        }
 
         val importInsertHelper = ImportInsertHelper.getInstance(project)
 

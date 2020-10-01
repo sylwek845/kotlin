@@ -11,7 +11,6 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.SmartPsiElementPointer
-import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.idea.analysis.analyzeAsReplacement
@@ -295,14 +294,6 @@ class ShortenReferences(val options: (KtElement) -> Options = { Options.DEFAULT 
             if (!anyChange) break
         }
 
-        actionRunningMode.runAction {
-            file.importList?.let { importList ->
-                runWriteAction {
-                    CodeStyleManager.getInstance(file.project).reformat(importList, true)
-                }
-            }
-        }
-
         return elementsToUse
     }
 
@@ -427,7 +418,7 @@ class ShortenReferences(val options: (KtElement) -> Options = { Options.DEFAULT 
                 if (!element.isValid) continue
 
                 // we never want any reformatting to happen because sometimes it causes strange effects (see KT-11633)
-                var newElement: KtElement? = element.project.disablePostprocessFormattingInside {
+                val newElement = element.project.disablePostprocessFormattingInside {
                     runWriteAction { shortenElement(element, options(element)) }
                 }
 
