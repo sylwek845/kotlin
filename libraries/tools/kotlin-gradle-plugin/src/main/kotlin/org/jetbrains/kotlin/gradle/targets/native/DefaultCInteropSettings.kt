@@ -10,11 +10,13 @@ import groovy.lang.Closure
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.util.ConfigureUtil
 import org.jetbrains.kotlin.gradle.plugin.CInteropSettings
 import org.jetbrains.kotlin.gradle.plugin.CInteropSettings.IncludeDirectories
 import org.jetbrains.kotlin.gradle.utils.lowerCamelCaseName
+import org.jetbrains.kotlin.gradle.utils.newProperty
 import java.io.File
 import javax.inject.Inject
 
@@ -62,13 +64,15 @@ open class DefaultCInteropSettings @Inject constructor(
 
     var defFile: File
         get() = defFileProperty.get()
-        set(value) { defFileProperty.set(value) }
+        set(value) {
+            defFileProperty.set(value)
+        }
 
-    var packageName: String? = null
+    val packageName: Property<String> = project.objects.property(String::class.java)
 
     val compilerOpts = mutableListOf<String>()
     val linkerOpts = mutableListOf<String>()
-    val extraOpts = mutableListOf<String>()
+    val extraOpts: ListProperty<String> = project.objects.listProperty(String::class.java)// mutableListOf<String>()
 
     val includeDirs = DefaultIncludeDirectories()
     var headers: FileCollection = project.files()
@@ -80,7 +84,7 @@ open class DefaultCInteropSettings @Inject constructor(
     }
 
     override fun packageName(value: String) {
-        packageName = value
+        packageName.set(value)
     }
 
     override fun header(file: Any) = headers(file)

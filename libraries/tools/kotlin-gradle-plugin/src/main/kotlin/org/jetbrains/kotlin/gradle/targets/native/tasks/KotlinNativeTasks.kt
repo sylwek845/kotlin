@@ -14,6 +14,7 @@ import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTree
 import org.gradle.api.logging.Logger
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.*
@@ -559,7 +560,8 @@ open class KotlinNativeLink : AbstractKotlinNativeCompile<KotlinCommonToolOption
         when (embedBitcode) {
             Framework.BitcodeEmbeddingMode.MARKER -> add("-Xembed-bitcode-marker")
             Framework.BitcodeEmbeddingMode.BITCODE -> add("-Xembed-bitcode")
-            else -> { /* Do nothing. */ }
+            else -> { /* Do nothing. */
+            }
         }
         linkerOpts.forEach {
             addArg("-linker-option", it)
@@ -585,7 +587,8 @@ open class KotlinNativeLink : AbstractKotlinNativeCompile<KotlinCommonToolOption
         listOf("-Xinclude=${intermediateLibrary.get().absolutePath}")
 
     @get:Internal
-    val apiFilesProvider = compilation.map {project.configurations.getByName(it.apiConfigurationName).files.filterKlibsPassedToCompiler(project)}
+    val apiFilesProvider =
+        compilation.map { project.configurations.getByName(it.apiConfigurationName).files.filterKlibsPassedToCompiler(project) }
 
     private fun validatedExportedLibraries() {
         val exportConfiguration = exportLibraries as? Configuration ?: return
@@ -914,7 +917,7 @@ open class CInteropProcess : DefaultTask() {
         @InputFile get() = settings.defFileProperty.get()
 
     val packageName: String?
-        @Optional @Input get() = settings.packageName
+        @Optional @Input get() = settings.packageName.orNull
 
     val compilerOpts: List<String>
         @Input get() = settings.compilerOpts
@@ -935,7 +938,7 @@ open class CInteropProcess : DefaultTask() {
         @InputFiles get() = settings.dependencyFiles.filterOutPublishableInteropLibs(project)
 
     val extraOpts: List<String>
-        @Input get() = settings.extraOpts
+        @Input get() = settings.extraOpts.get()
 
     val kotlinNativeVersion: String
         @Input get() = project.konanVersion.toString()
